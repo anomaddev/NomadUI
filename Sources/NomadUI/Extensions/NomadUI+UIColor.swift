@@ -22,6 +22,7 @@ extension UIColor {
         switch style {
         case .light:    return UITheme.main.light.primary
         case .dark:     return UITheme.main.dark.primary
+        case .followOS: fatalError("Cannot force primary color to follow OS as that is default behavior")
         }
     }
     
@@ -38,6 +39,7 @@ extension UIColor {
         switch style {
         case .light:    return UITheme.main.light.error
         case .dark:     return UITheme.main.dark.error
+        case .followOS: fatalError("Cannot force secondary color to follow OS as that is default behavior")
         }
     }
     
@@ -54,6 +56,7 @@ extension UIColor {
         switch style {
         case .light:    return UITheme.main.light.error
         case .dark:     return UITheme.main.dark.error
+        case .followOS: fatalError("Cannot force tertiary color to follow OS as that is default behavior")
         }
     }
     
@@ -70,6 +73,7 @@ extension UIColor {
         switch style {
         case .light:    return UITheme.main.light.error
         case .dark:     return UITheme.main.dark.error
+        case .followOS: fatalError("Cannot force error color to follow OS as that is default behavior")
         }
     }
     
@@ -86,6 +90,7 @@ extension UIColor {
         switch style {
         case .light:    return UITheme.main.light.error
         case .dark:     return UITheme.main.dark.error
+        case .followOS: fatalError("Cannot force background color to follow OS as that is default behavior")
         }
     }
     
@@ -102,6 +107,7 @@ extension UIColor {
         switch style {
         case .light:    return UITheme.main.light.error
         case .dark:     return UITheme.main.dark.error
+        case .followOS: fatalError("Cannot force neutral color to follow OS as that is default behavior")
         }
     }
 }

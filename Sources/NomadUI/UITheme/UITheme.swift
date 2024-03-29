@@ -9,8 +9,11 @@ import UIKit
 import Defaults
 
 extension Defaults.Keys {
-    static let theme = Key<Adaptive>("theme", default: .followOS)
+    
+    public static let theme = Key<Adaptive>("theme", default: .followOS)
+    
 }
+
 
 public class UITheme: NSObject {
     
@@ -22,7 +25,6 @@ public class UITheme: NSObject {
     public var setting: Adaptive = .followOS {
         didSet { Defaults[.theme] = setting }
     }
-    
     
     public var osStyle: UIUserInterfaceStyle {
         if #available(iOS 13.0, *) {

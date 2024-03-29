@@ -7,6 +7,7 @@
 
 import UIKit
 import UIColorHexSwift
+import Defaults
 
 // TODO: Make optional to fallback on default values if not specified
 // TODO: Create Success & Warning values
@@ -133,7 +134,7 @@ public struct NeutralColor {
     }
 }
 
-public enum Adaptive: String, Codable {
+public enum Adaptive: String, Defaults.Serializable {
     case followOS
     case light
     case dark
