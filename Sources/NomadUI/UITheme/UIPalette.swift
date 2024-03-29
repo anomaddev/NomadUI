@@ -23,7 +23,10 @@ public class DynamicColor {
     
     public func color() -> UIColor {
         if #available(iOS 13.0, *) {
-            return UITheme.main.style == .dark ? dark : light
+            guard UITheme.main.setting == .followOS
+            else { return UITheme.main.setting == .dark ? dark : light }
+            
+            return UITheme.main.osStyle == .dark ? dark : light
         } else {
             return light
         }
@@ -130,7 +133,8 @@ public struct NeutralColor {
     }
 }
 
-public enum Adaptive {
+public enum Adaptive: String, Codable {
+    case followOS
     case light
     case dark
 }

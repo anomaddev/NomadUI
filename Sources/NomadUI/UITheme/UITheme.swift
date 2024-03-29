@@ -6,6 +6,11 @@
 //
 
 import UIKit
+import Defaults
+
+extension Defaults.Keys {
+    static let theme = Key<Adaptive>("theme", default: .followOS)
+}
 
 public class UITheme: NSObject {
     
@@ -14,7 +19,12 @@ public class UITheme: NSObject {
     public var light:   UIPalette = .defaultLight
     public var dark:    UIPalette = .defaultDark
     
-    public var style: UIUserInterfaceStyle {
+    public var setting: Adaptive = .followOS {
+        didSet { Defaults[.theme] = setting }
+    }
+    
+    
+    public var osStyle: UIUserInterfaceStyle {
         if #available(iOS 13.0, *) {
             return UIScreen.main.traitCollection.userInterfaceStyle
         } else {
@@ -30,13 +40,16 @@ public class UITheme: NSObject {
         switch palette.adaptive {
         case .light:    light = palette
         case .dark:     dark = palette
+        default: break
         }
     }
     
     public func active() -> UIPalette {
         if #available(iOS 13.0, *) {
-            print(style.rawValue)
-            return style == .dark ? dark : light
+            guard setting == .followOS
+            else { return setting == .dark ? dark : light }
+            
+            return osStyle == .dark ? dark : light
         } else {
             return light
         }
