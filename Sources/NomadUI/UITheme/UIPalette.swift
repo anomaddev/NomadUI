@@ -9,6 +9,26 @@ import UIKit
 import UIColorHexSwift
 
 // TODO: Make optional to fallback on default values if not specified
+// TODO: Create Success & Warning values
+
+public class DynamicColor {
+    
+    public var light: UIColor
+    public var dark: UIColor
+    
+    public init(light: UIColor, dark: UIColor) {
+        self.light = light
+        self.dark = dark
+    }
+    
+    public func color() -> UIColor {
+        if #available(iOS 13.0, *) {
+            return UITheme.main.style == .dark ? dark : light
+        } else {
+            return light
+        }
+    }
+}
 
 public class UIPalette {
     

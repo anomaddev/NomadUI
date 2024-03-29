@@ -16,7 +16,7 @@ public class UITheme: NSObject {
     
     public var style: UIUserInterfaceStyle {
         if #available(iOS 13.0, *) {
-            return UITraitCollection.current.userInterfaceStyle
+            return UIScreen.main.traitCollection.userInterfaceStyle
         } else {
             return .light
         }
