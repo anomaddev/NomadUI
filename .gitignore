@@ -50,7 +50,7 @@ Package Manager dependencies.
 file and xcuserdata
 # hence it is not needed unless you have added a package configuration 
 file to your project
-# .swiftpm
+.swiftpm
 
 .build/
 
