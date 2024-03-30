@@ -134,8 +134,16 @@ public struct NeutralColor {
     }
 }
 
-public enum Adaptive: String, Defaults.Serializable {
+public enum Adaptive: String, Defaults.Serializable, CaseIterable {
     case followOS
     case light
     case dark
+    
+    public var label: String {
+        switch self {
+        case .followOS: return "Follow OS"
+        case .light:    return "Light"
+        case .dark:     return "Dark"
+        }
+    }
 }

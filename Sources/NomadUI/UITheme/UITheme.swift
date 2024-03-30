@@ -17,7 +17,14 @@ extension Defaults.Keys {
 
 public class UITheme: NSObject {
     
-    public static var main: UITheme = UITheme()
+    public static var main: UITheme = {
+        let thm = UITheme()
+        let active = Defaults[.theme]
+        
+        print("Active Theme: \(active.label)")
+        thm.setting = active
+        return thm
+    }()
     
     public var light:   UIPalette = .defaultLight
     public var dark:    UIPalette = .defaultDark
