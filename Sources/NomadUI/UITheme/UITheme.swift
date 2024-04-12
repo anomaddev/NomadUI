@@ -29,8 +29,9 @@ public class UITheme: NSObject {
     public var light:   UIPalette = .defaultLight
     public var dark:    UIPalette = .defaultDark
     
-    public var setting: Adaptive = .followOS {
-        didSet { Defaults[.theme] = setting }
+    public var setting: Adaptive {
+        get { Defaults[.theme] }
+        set { Defaults[.theme] = newValue }
     }
     
     public var osStyle: UIUserInterfaceStyle {
