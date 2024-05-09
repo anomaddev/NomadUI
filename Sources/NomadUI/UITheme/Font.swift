@@ -21,6 +21,30 @@ public enum FontFamily: String, CaseIterable {
     case Raleway
     case Rubik
     
+    var enabled: [Font] {
+        switch self {
+        case .Bison:       
+            return [.Bold]
+            
+        case .FuturaPT:
+            return [.Book, .Medium, .MediumOblique, .Bold, .BoldOblique]
+            
+        case .HelveticaNeue:
+            return [.Bold, .Medium, .Regular, .Light, .Thin]
+            
+        case .PathwayExtreme:
+            return [.Bold, .ExtraBold, .ExtraBoldItalic, .Medium, .Regular, .SemiBold, .SemiBoldItalic]
+            
+        case .PTSans:
+            return [.Bold, .BoldItalic, .Regular, .Italic]
+            
+        case .Raleway:
+            return [.Bold, .ExtraBold, .ExtraLight, .ExtraLightItalic, .Light, .LightItalic, .Medium, .MediumItalic, .Regular, .SemiBold, .SemiBoldItalic, .Thin, .ThinItalic, .Black, .BlackItalic]
+            
+        case .Rubik:
+            return [.Black, .BlackItalic, .Bold, .BoldItalic, .ExtraBold, .ExtraBoldItalic, .Italic, .Light, .LightItalic, .MediumItalic, .Regular, .SemiBold, .SemiBoldItalic]
+        }
+    }
 }
 
 public enum Font: String, CaseIterable {
@@ -59,6 +83,10 @@ public enum Font: String, CaseIterable {
     {
         guard let size = size else { return UIFont(name: "HelveticaNeue", size: 14)! }
         let fontFamily = alternative ? UITheme.main.altFont : UITheme.main.appFont
+        
+        guard fontFamily.enabled.contains(self)
+        else { fatalError("\(fontFamily.rawValue) does not support \(self.rawValue)") }
+        
         let thefont = "\(fontFamily.rawValue)-\(self.rawValue)"
         guard let font = UIFont(name: thefont, size: size)
         else {

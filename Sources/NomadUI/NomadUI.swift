@@ -27,7 +27,11 @@ public class NomadUI {
                 $0 != .HelveticaNeue
                 /// accounting for system fonts not in Nomad bundle
             }
-            .map { name in Font.allCases.map { "\(name.rawValue)-\($0.rawValue)" }}
+            .map { name in
+                Font.allCases
+                    .filter { name.enabled.contains($0) }
+                    .map { "\(name.rawValue)-\($0.rawValue)" }
+            }
             .reduce([], +)
             
         fonts.forEach {

@@ -22,7 +22,7 @@ public enum NMDLabelAttribute: NMDAttribute {
         case .textColor:    return "textColor"
         case .textAlignment: return "textAlignment"
         case .font:         return "font"
-        case .altFont:      return "altFont"
+        case .altfont:      return "altfont"
         }
     }
     
@@ -30,7 +30,7 @@ public enum NMDLabelAttribute: NMDAttribute {
     case textColor(UIColor)
     case textAlignment(NSTextAlignment)
     case font(weight: Font, size: CGFloat)
-    case altFont(weight: Font, size: CGFloat)
+    case altfont(weight: Font, size: CGFloat)
     
 }
 
@@ -79,7 +79,7 @@ public class NMDLabel: UILabel, NMDElement {
         case .font(let weight, let size):
             font = weight.getFont(size: size)
             
-        case .altFont(let weight, let size):
+        case .altfont(let weight, let size):
             font = weight.getFont(size: size, alternative: true)
         }
     }
