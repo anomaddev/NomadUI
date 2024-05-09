@@ -29,10 +29,14 @@ extension NMDAttribute {
 public enum NMDAttributeCategory {
     
     case viewAttributes([NMDViewAttribute])
+    case labelAttributes([NMDLabelAttribute])
     
     var attributes: [any NMDAttribute] {
         switch self {
         case .viewAttributes(let attributes):
+            return attributes
+            
+        case .labelAttributes(let attributes):
             return attributes
         }
     }

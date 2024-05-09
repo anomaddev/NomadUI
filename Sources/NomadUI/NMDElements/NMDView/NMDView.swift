@@ -93,6 +93,11 @@ public class NMDView: UIView, NMDElement {
         }
     }
     
+    required public init?(coder: NSCoder)
+    { super.init(coder: coder) }
+}
+
+extension UIView {
     public func setViewAttribute(_ attribute: NMDViewAttribute) {
         switch attribute {
             
@@ -146,8 +151,4 @@ public class NMDView: UIView, NMDElement {
         default: break
         }
     }
-    
-    
-    required public init?(coder: NSCoder)
-    { super.init(coder: coder) }
 }

@@ -17,7 +17,7 @@ extension Defaults.Keys {
 
 public class UITheme: NSObject {
     
-    public static var main: UITheme = {
+    public static var main: UITheme = {        
         let thm = UITheme()
         let active = Defaults[.theme]
         
@@ -28,6 +28,9 @@ public class UITheme: NSObject {
     
     public var light:   UIPalette = .defaultLight
     public var dark:    UIPalette = .defaultDark
+    
+    public var appFont: FontFamily = .HelveticaNeue
+    public var altFont: FontFamily  = .HelveticaNeue
     
     public var setting: Adaptive {
         get { Defaults[.theme] }

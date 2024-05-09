@@ -30,7 +30,9 @@ let package = Package(
                 .product(name: "UIColorHexSwift", package: "UIColor-Hex-Swift"),
                 .product(name: "FAPanels", package: "FAPanels"),
                 .product(name: "Cartography", package: "Cartography"),
-            ]),
+            ],
+            resources: [.process("Fonts")]
+        ),
         .testTarget(
             name: "NomadUITests",
             dependencies: ["NomadUI"]),
