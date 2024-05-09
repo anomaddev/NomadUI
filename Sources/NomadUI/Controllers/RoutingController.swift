@@ -44,6 +44,8 @@ open class RoutingController: FAPanelController {
     
     public var palatte: UIPalette = UITheme.main.active()
     
+    public var navigation: NavigationController?
+    
     init(withConfig configs: FAPanelConfigurations) {
         super.init()
         self.configs = configs

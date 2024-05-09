@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "cartography",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/anomaddev/Cartography.git",
+      "state" : {
+        "revision" : "11056703e53685b527c07bda007524542153b1ff",
+        "version" : "4.0.1"
+      }
+    },
+    {
       "identity" : "defaults",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/Defaults.git",

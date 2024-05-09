@@ -1,13 +1,17 @@
 //
-//  ThemedController.swift
+//  BasicController.swift
 //
 //
-//  Created by Justin Ackermann on 3/26/24.
+//  Created by Justin Ackermann on 5/9/24.
 //
 
+// Core iOS
 import UIKit
 
-open class ThemedController: UIViewController {
+// Nomad
+import NomadUtilities
+
+open class BasicController: UIViewController {
     
     public var palatte: UIPalette = UITheme.main.active()
     
@@ -15,5 +19,9 @@ open class ThemedController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = palatte.background.color
         
+    }
+    
+    open func handle(_ error: Error) {
+        error.explain()
     }
 }
