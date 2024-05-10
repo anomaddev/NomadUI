@@ -75,23 +75,23 @@ extension UIView {
     }
     
     /// Constraints
-//    @discardableResult
-//    func constrainHeight(_ constant: CGFloat) -> AnchoredConstraints {
-//        translatesAutoresizingMaskIntoConstraints = false
-//        var anchoredConstraints = AnchoredConstraints()
-//        anchoredConstraints.height = heightAnchor.constraint(equalToConstant: constant)
-//        anchoredConstraints.height?.isActive = true
-//        return anchoredConstraints
-//    }
-//    
-//    @discardableResult
-//    func constrainWidth(_ constant: CGFloat) -> AnchoredConstraints {
-//        translatesAutoresizingMaskIntoConstraints = false
-//        var anchoredConstraints = AnchoredConstraints()
-//        anchoredConstraints.width = widthAnchor.constraint(equalToConstant: constant)
-//        anchoredConstraints.width?.isActive = true
-//        return anchoredConstraints
-//    }
+    @discardableResult
+    func setHeight(_ constant: CGFloat) -> AnchoredConstraints {
+        translatesAutoresizingMaskIntoConstraints = false
+        var anchoredConstraints = AnchoredConstraints()
+        anchoredConstraints.height = heightAnchor.constraint(equalToConstant: constant)
+        anchoredConstraints.height?.isActive = true
+        return anchoredConstraints
+    }
+    
+    @discardableResult
+    func setWidth(_ constant: CGFloat) -> AnchoredConstraints {
+        translatesAutoresizingMaskIntoConstraints = false
+        var anchoredConstraints = AnchoredConstraints()
+        anchoredConstraints.width = widthAnchor.constraint(equalToConstant: constant)
+        anchoredConstraints.width?.isActive = true
+        return anchoredConstraints
+    }
     
     /**
      This function adds the view, on which we call the function, to a specified parent view controller and afixes the constrains to the size of the parent view's margins.

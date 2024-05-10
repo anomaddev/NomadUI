@@ -8,6 +8,10 @@
 import UIKit
 import Cartography
 
+public struct AnchoredConstraints {
+    public var top, leading, bottom, trailing, width, height: NSLayoutConstraint?
+}
+
 protocol NMDElement {
     var defaultAttributes: [NMDAttributeCategory]
     { get set }
