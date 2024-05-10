@@ -76,7 +76,7 @@ extension UIView {
     
     /// Constraints
     @discardableResult
-    func setHeight(_ constant: CGFloat) -> AnchoredConstraints {
+    public func setHeight(_ constant: CGFloat) -> AnchoredConstraints {
         translatesAutoresizingMaskIntoConstraints = false
         var anchoredConstraints = AnchoredConstraints()
         anchoredConstraints.height = heightAnchor.constraint(equalToConstant: constant)
@@ -85,7 +85,7 @@ extension UIView {
     }
     
     @discardableResult
-    func setWidth(_ constant: CGFloat) -> AnchoredConstraints {
+    public func setWidth(_ constant: CGFloat) -> AnchoredConstraints {
         translatesAutoresizingMaskIntoConstraints = false
         var anchoredConstraints = AnchoredConstraints()
         anchoredConstraints.width = widthAnchor.constraint(equalToConstant: constant)
