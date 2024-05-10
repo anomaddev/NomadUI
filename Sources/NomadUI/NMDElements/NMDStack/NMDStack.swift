@@ -18,17 +18,38 @@ public enum NMDStackAttribute: NMDAttribute {
     
     public var value: String {
         switch self {
+        case .direction:    return "direction"
         case .distribution: return "distribution"
         case .alignment:    return "alignment"
         case .spacing:      return "spacing"
         }
     }
-    
-    
+
+    case direction(NSLayoutConstraint.Axis)
     case distribution(UIStackView.Distribution)
     case alignment(UIStackView.Alignment)
     case spacing(CGFloat)
     
+}
+
+public class NMDRow: NMDStack {
+    
+    override public init(_ attributes: [NMDAttributeCategory] = []) {
+        super.init(attributes + [.stackAttributes([.direction(.horizontal)])])
+    }
+    
+    required public init(coder: NSCoder)
+    { super.init(coder: coder) }
+}
+
+public class NMDColumn: NMDStack {
+    
+    override public init(_ attributes: [NMDAttributeCategory] = []) {
+        super.init(attributes + [.stackAttributes([.direction(.vertical)])])
+    }
+    
+    required public init(coder: NSCoder)
+    { super.init(coder: coder) }
 }
 
 public class NMDStack: UIStackView, NMDElement {
@@ -66,6 +87,9 @@ public class NMDStack: UIStackView, NMDElement {
         switch attribute {
             
             // Stack
+        case .direction(let dir):
+            axis = dir
+            
         case .distribution(let distro):
             distribution = distro
             
