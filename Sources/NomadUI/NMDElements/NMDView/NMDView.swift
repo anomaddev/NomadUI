@@ -75,6 +75,11 @@ public class NMDView: UIView, NMDElement {
         ])
     ]
     
+    public init(_ color: UIColor) {
+        super.init(frame: .zero)
+        backgroundColor = color
+    }
+    
     public init(_ attributes: [NMDAttributeCategory] = []) {
         super.init(frame: .zero)
         setup(attributes)
