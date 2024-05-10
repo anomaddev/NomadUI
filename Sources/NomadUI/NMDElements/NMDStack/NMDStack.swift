@@ -81,3 +81,8 @@ public class NMDStack: UIStackView, NMDElement {
     { super.init(coder: coder) }
 }
 
+extension UIStackView {
+    public func addArrangedSubviews(_ views: UIView...) {
+        views.forEach { addArrangedSubview($0) }
+    }
+}
