@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "nomadutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/anomaddev/NomadUtilities.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ec0cb148e5eb4f98a8e95e9689704b2303edbdbd"
+      }
+    },
+    {
       "identity" : "uicolor-hex-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yeahdongcn/UIColor-Hex-Swift.git",
