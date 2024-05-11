@@ -12,8 +12,8 @@ extension UIButton.Configuration {
     
     public static let AppleLogin: UIButton.Configuration = {
         var config = UIButton.Configuration.plain()
-        config.title = "Login with Apple"
         config.background.backgroundColor = .FacebookBlue
+        config.background.cornerRadius = 5
         config.attributedTitle = AttributedString(
             "Login with Facebook",
             attributes: AttributeContainer([
