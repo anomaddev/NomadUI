@@ -78,6 +78,7 @@ public enum Font: String, CaseIterable {
     case MediumOblique
     case BoldOblique
     
+    // TODO: Make throwing function? 
     public func getFont(size: CGFloat? = 14,
                         alternative: Bool! = false) -> UIFont
     {

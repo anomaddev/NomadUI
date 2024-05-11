@@ -16,7 +16,7 @@ extension UIButton.Configuration {
         config.attributedTitle = AttributedString(
             "Login with Facebook",
             attributes: AttributeContainer([
-                Font.Key: Font.Medium.getFont(size: 16),
+                Font.Key: Font.Regular.getFont(size: 16),
                 UIColor.Foreground: UIColor.primary.onColor
             ])
         )
