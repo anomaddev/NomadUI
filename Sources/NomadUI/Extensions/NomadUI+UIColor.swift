@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import UIColorHexSwift
 
 extension UIColor {
     
     static var Foreground: NSAttributedString.Key = .foregroundColor
     static var Background: NSAttributedString.Key = .backgroundColor
+    
+    static let FacebookBlue: UIColor = .init("#1877F2")
     
     /// Returns the current palette primary color
     public static var primary: PrimaryColor {
