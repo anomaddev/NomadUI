@@ -10,7 +10,7 @@ import UIKit
 @available(iOS 15.0, *)
 extension UIButton.Configuration {
     
-    static let AppleLogin: UIButton.Configuration = {
+    public static let AppleLogin: UIButton.Configuration = {
         var config = UIButton.Configuration.plain()
         config.title = "Login with Apple"
         config.attributedTitle = AttributedString(
