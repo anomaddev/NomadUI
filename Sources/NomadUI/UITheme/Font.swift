@@ -85,7 +85,15 @@ public enum Font: String, CaseIterable {
         let fontFamily = alternative ? UITheme.main.altFont : UITheme.main.appFont
         
         guard fontFamily.enabled.contains(self)
-        else { fatalError("\(fontFamily.rawValue) does not support \(self.rawValue)") }
+        else {
+            print("INVALID FONT WEIGHT: \(self.rawValue)")
+            print("Choose from one of the following fonts weights:")
+            for font in fontFamily.enabled {
+                print("• \(font.rawValue)")
+            }
+            print()
+            fatalError("\(fontFamily.rawValue) does not support \(self.rawValue)")
+        }
         
         let thefont = "\(fontFamily.rawValue)-\(self.rawValue)"
         guard let font = UIFont(name: thefont, size: size)
