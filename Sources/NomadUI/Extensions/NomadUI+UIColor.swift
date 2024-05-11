@@ -9,6 +9,9 @@ import UIKit
 
 extension UIColor {
     
+    static var Foreground: NSAttributedString.Key = .foregroundColor
+    static var Background: NSAttributedString.Key = .backgroundColor
+    
     /// Returns the current palette primary color
     public static var primary: PrimaryColor {
         UITheme.main.active().primary
