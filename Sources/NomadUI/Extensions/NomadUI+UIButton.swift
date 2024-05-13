@@ -12,10 +12,10 @@ extension UIButton.Configuration {
     
     fileprivate static func Login() -> UIButton.Configuration {
         var config = UIButton.Configuration.filled()
-        config.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
+        config.contentInsets = .init(top: 10, leading: 30, bottom: 10, trailing: 30)
         config.background.cornerRadius = 5
         
-        config.titleAlignment = .leading
+        config.titleAlignment = .center
         config.preferredSymbolConfigurationForImage = .init(pointSize: 20)
         config.imagePadding = 20
         config.imagePlacement = .trailing
@@ -58,7 +58,7 @@ extension AttributeContainer {
     fileprivate static var BaseButtonConfig: AttributeContainer = {
         var container = AttributeContainer()
         container.foregroundColor = .white
-        container.font = Font.Regular.getFont(size: 17)
+        container.font = Font.Bold.getFont(size: 17)
         
         return container
     }()
