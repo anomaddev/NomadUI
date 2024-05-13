@@ -26,6 +26,7 @@ extension UIButton.Configuration {
         config.preferredSymbolConfigurationForImage = .init(pointSize: 20)
         config.imagePadding = 20
         config.imagePlacement = .trailing
+        config.buttonSize = .small
         
         return config
     }()
