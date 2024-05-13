@@ -13,7 +13,7 @@ extension UIButton.Configuration {
     public static let AppleLogin: UIButton.Configuration = {
         var container: AttributeContainer = .BaseButtonConfig
         
-        var config = UIButton.Configuration.plain()
+        var config = UIButton.Configuration.filled()
         config.background.backgroundColor = .FacebookBlue
         config.background.cornerRadius = 5
         config.attributedTitle = AttributedString(
