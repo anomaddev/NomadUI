@@ -14,6 +14,7 @@ extension UIButton.Configuration {
         var container: AttributeContainer = .BaseButtonConfig
         
         var config = UIButton.Configuration.filled()
+        config.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
         config.background.backgroundColor = .FacebookBlue
         config.background.cornerRadius = 5
         config.attributedTitle = AttributedString(
