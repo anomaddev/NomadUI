@@ -22,7 +22,7 @@ extension UIButton.Configuration {
             attributes: container
         )
         
-        config.image = UIImage(resource: .facebook)
+        config.image = UIImage(resource: .facebook_sm)
         config.titleAlignment = .leading
         config.preferredSymbolConfigurationForImage = .init(pointSize: 20)
         config.imagePadding = 20
