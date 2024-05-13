@@ -21,6 +21,12 @@ extension UIButton.Configuration {
             attributes: container
         )
         
+        config.image = UIImage(resource: .facebook)
+        config.titleAlignment = .leading
+        config.preferredSymbolConfigurationForImage = .init(pointSize: 20)
+        config.imagePadding = 20
+        config.imagePlacement = .trailing
+        
         return config
     }()
     
@@ -31,7 +37,7 @@ extension AttributeContainer {
     fileprivate static var BaseButtonConfig: AttributeContainer = {
         var container = AttributeContainer()
         container.foregroundColor = .white
-        container.font = Font.Regular.getFont(size: 16)
+        container.font = Font.Regular.getFont(size: 17)
         
         return container
     }()
