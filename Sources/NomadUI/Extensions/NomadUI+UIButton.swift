@@ -10,17 +10,21 @@ import UIKit
 @available(iOS 15.0, *)
 extension UIButton.Configuration {
     
-    public static let AppleLogin: UIButton.Configuration = {
+    fileprivate static var BaseButtonConfig: AttributeContainer = {
         var container = AttributeContainer()
-        container.foregroundColor = .primary.onColor
+        container.foregroundColor = .white
         container.font = Font.Regular.getFont(size: 16)
         
+        return container
+    }()
+    
+    public static let AppleLogin: UIButton.Configuration = {
         var config = UIButton.Configuration.plain()
         config.background.backgroundColor = .FacebookBlue
         config.background.cornerRadius = 5
         config.attributedTitle = AttributedString(
             "Login with Facebook",
-            attributes: container
+            attributes: UIButton.Configuration.BaseButtonConfig
         )
         
         return config
