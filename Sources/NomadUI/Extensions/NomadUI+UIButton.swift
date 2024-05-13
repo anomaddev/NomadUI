@@ -38,6 +38,21 @@ extension UIButton.Configuration {
         return config
     }()
     
+    public static let GoogleLogin: UIButton.Configuration = {
+        var container: AttributeContainer = .BaseButtonConfig
+        container.foregroundColor = .black
+        
+        var config: UIButton.Configuration = .Login()
+        config.background.backgroundColor = .white
+        config.image = UIImage(resource: .googleSm)
+        config.attributedTitle = AttributedString(
+            "Login with Google",
+            attributes: container
+        )
+        
+        return config
+    }()
+    
     public static let AppleLogin: UIButton.Configuration = {
         var container: AttributeContainer = .BaseButtonConfig
         
