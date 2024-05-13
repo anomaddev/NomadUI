@@ -39,8 +39,9 @@ extension UIButton.Configuration {
     }()
     
     public static let GoogleLogin: UIButton.Configuration = {
-        var container: AttributeContainer = .BaseButtonConfig
+        var container = AttributeContainer()
         container.foregroundColor = .black
+        container.font = Font.Bold.getFont(size: 17)
         
         var config: UIButton.Configuration = .Login()
         config.background.backgroundColor = .white
