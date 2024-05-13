@@ -10,6 +10,24 @@ import UIKit
 @available(iOS 15.0, *)
 extension UIButton.Configuration {
     
+    public static let AppleLogin: UIButton.Configuration = {
+        var container: AttributeContainer = .BaseButtonConfig
+        
+        var config = UIButton.Configuration.plain()
+        config.background.backgroundColor = .FacebookBlue
+        config.background.cornerRadius = 5
+        config.attributedTitle = AttributedString(
+            "Login with Facebook",
+            attributes: container
+        )
+        
+        return config
+    }()
+    
+}
+
+@available(iOS 15, *)
+extension AttributeContainer {
     fileprivate static var BaseButtonConfig: AttributeContainer = {
         var container = AttributeContainer()
         container.foregroundColor = .white
@@ -17,17 +35,4 @@ extension UIButton.Configuration {
         
         return container
     }()
-    
-    public static let AppleLogin: UIButton.Configuration = {
-        var config = UIButton.Configuration.plain()
-        config.background.backgroundColor = .FacebookBlue
-        config.background.cornerRadius = 5
-        config.attributedTitle = AttributedString(
-            "Login with Facebook",
-            attributes: UIButton.Configuration.BaseButtonConfig
-        )
-        
-        return config
-    }()
-    
 }
