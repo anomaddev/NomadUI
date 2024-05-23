@@ -33,6 +33,7 @@ extension NMDAttribute {
 public enum NMDAttributeCategory {
     
     case viewAttributes([NMDViewAttribute])
+    case buttonAttributes([NMDButtonAttribute])
     case labelAttributes([NMDLabelAttribute])
     case imageAttributes([NMDImageViewAttribute])
     case stackAttributes([NMDStackAttribute])
@@ -40,6 +41,7 @@ public enum NMDAttributeCategory {
     var attributes: [any NMDAttribute] {
         switch self {
         case .viewAttributes(let attributes):   return attributes
+        case .buttonAttributes(let attributes): return attributes
         case .labelAttributes(let attributes):  return attributes
         case .imageAttributes(let attributes):  return attributes
         case .stackAttributes(let attributes):  return attributes

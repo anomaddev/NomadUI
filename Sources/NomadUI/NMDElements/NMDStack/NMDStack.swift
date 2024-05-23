@@ -32,7 +32,7 @@ public enum NMDStackAttribute: NMDAttribute {
     
 }
 
-public class NMDRow: NMDStack {
+open class NMDRow: NMDStack {
     
     override public init(_ attributes: [NMDAttributeCategory] = []) {
         super.init(attributes + [.stackAttributes([.direction(.horizontal)])])
@@ -42,7 +42,7 @@ public class NMDRow: NMDStack {
     { super.init(coder: coder) }
 }
 
-public class NMDColumn: NMDStack {
+open class NMDColumn: NMDStack {
     
     override public init(_ attributes: [NMDAttributeCategory] = []) {
         super.init(attributes + [.stackAttributes([.direction(.vertical)])])
@@ -52,7 +52,7 @@ public class NMDColumn: NMDStack {
     { super.init(coder: coder) }
 }
 
-public class NMDStack: UIStackView, NMDElement {
+open class NMDStack: UIStackView, NMDElement {
     
     var defaultAttributes: [NMDAttributeCategory] = [
         .stackAttributes([

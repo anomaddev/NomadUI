@@ -18,6 +18,8 @@ public enum NMDViewAttribute: NMDAttribute {
     
     public var value: String {
         switch self {
+        case .tag:          return "tag"
+            
         case .setHeight:    return "setHeight"
         case .setWidth:     return "setWidth"
         case .setSize:      return "setSize"
@@ -42,6 +44,7 @@ public enum NMDViewAttribute: NMDAttribute {
         }
     }
     
+    case tag(Int)
     
     case setHeight(CGFloat)
     case setWidth(CGFloat)
@@ -105,6 +108,10 @@ public class NMDView: UIView, NMDElement {
 extension UIView {
     public func setViewAttribute(_ attribute: NMDViewAttribute) {
         switch attribute {
+            
+            // Object descriptors
+        case .tag(let t):
+            tag = t
             
             // Sizing
         case .setHeight(let height):

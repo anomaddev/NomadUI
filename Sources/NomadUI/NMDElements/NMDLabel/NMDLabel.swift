@@ -23,6 +23,7 @@ public enum NMDLabelAttribute: NMDAttribute {
         case .textAlignment: return "textAlignment"
         case .font:         return "font"
         case .altfont:      return "altfont"
+        case .numberOfLines: return "numberOfLines"
         }
     }
     
@@ -31,6 +32,7 @@ public enum NMDLabelAttribute: NMDAttribute {
     case textAlignment(NSTextAlignment)
     case font(weight: Font, size: CGFloat)
     case altfont(weight: Font, size: CGFloat)
+    case numberOfLines(Int)
     
 }
 
@@ -81,6 +83,9 @@ public class NMDLabel: UILabel, NMDElement {
             
         case .altfont(let weight, let size):
             font = weight.getFont(size: size, alternative: true)
+            
+        case .numberOfLines(let lines):
+            numberOfLines = lines
         }
     }
     

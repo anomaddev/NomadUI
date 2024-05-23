@@ -21,6 +21,10 @@ open class BasicController: UIViewController {
         
     }
     
+    @objc open func goBack() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     open func handle(_ error: Error) {
         error.explain()
     }

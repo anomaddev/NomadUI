@@ -14,15 +14,15 @@ import Cartography
 extension UIView {
     
     /// Init with a color
-    convenience init(color: UIColor)
+    public convenience init(color: UIColor)
     { self.init(); backgroundColor = color }
     
     /// Add a list of subviews to a view
-    func add(_ subviews: UIView...)
+    public func add(_ subviews: UIView...)
     { subviews.forEach(addSubview) }
     
     /// Remove a subview from a view
-    func remove(_ subview: UIView) throws {
+    public func remove(_ subview: UIView) throws {
         guard let view = subviews.first(where: { $0 == subview })
         else { throw NSError() } // THROW:
         view.removeFromSuperview()
@@ -50,7 +50,7 @@ extension UIView {
     /// - parameter duration: A `Double` value to represent the duration of the shake motion in seconds
     /// - parameter repeat: a `Float` value to represent the number of shake motions repeated
     ///
-    func shake(duration timeDuration: Double = 0.07,
+    public func shake(duration timeDuration: Double = 0.07,
                repeat countRepeat: Float = 3,
                xDist offset: CGFloat = 5) {
         let animation = CABasicAnimation(keyPath: "position")
@@ -62,13 +62,13 @@ extension UIView {
         self.layer.add(animation, forKey: "position")
     }
     
-    func fadeOut(with duration: Double! = 0.25) {
+    public func fadeOut(with duration: Double! = 0.25) {
         UIView.animate(withDuration: duration, animations: {
             self.alpha = 0
         })
     }
     
-    func fadeIn(with duration: Double! = 0.4) {
+    public func fadeIn(with duration: Double! = 0.4) {
         UIView.animate(withDuration: duration, animations: {
             self.alpha = 1
         })
@@ -106,7 +106,7 @@ extension UIView {
      
      - parameter controller: The `UIViewController` that you want to add this child view on to
      */
-    func fitTo(_ controller: UIViewController, padding: UIEdgeInsets! = .zero) {
+    public func fitTo(_ controller: UIViewController, padding: UIEdgeInsets! = .zero) {
         controller.view.add(self)
         constrain(self)
         { theview in
@@ -133,7 +133,7 @@ extension UIView {
      
      - parameter view: The `UIView` that you want to add this child view on to
      */
-    func fitTo(_ view: UIView, padding: UIEdgeInsets! = .zero) {
+    public func fitTo(_ view: UIView, padding: UIEdgeInsets! = .zero) {
         view.add(self)
         constrain(self)
         { theview in
@@ -151,7 +151,7 @@ extension UIView {
     ///
     /// - parameter view: The parent `UIView` that you want to match size with
     ///
-    func sameSize(as view: UIView) {
+    public func sameSize(as view: UIView) {
         constrain(view, self)
         { parent, child in
             child.width ~== parent.width
@@ -165,7 +165,7 @@ extension UIView {
     ///
     /// - parameter view: The parent `UIView` that you want to match width with
     ///
-    func sameWidth(as view: UIView) {
+    public func sameWidth(as view: UIView) {
         constrain(view, self)
         { parent, child in
             child.width ~== parent.width
@@ -178,7 +178,7 @@ extension UIView {
     ///
     /// - parameter view: The parent `UIView` that you want to match height with
     ///
-    func sameHeight(as view: UIView) {
+    public func sameHeight(as view: UIView) {
         constrain(view, self)
         { parent, child in
             child.height ~== parent.height
