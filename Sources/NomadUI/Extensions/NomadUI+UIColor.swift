@@ -66,6 +66,40 @@ extension UIColor {
         }
     }
     
+    /// Returns the current palette success color
+    public static var success: PrimaryColor {
+        UITheme.main.active().success
+    }
+    
+    /// Returns the success palette color of the specified style
+    ///
+    /// - parameter style: The style to force the success color to
+    /// - returns: The success color of the specified style
+    public static func forceSuccess(style: Adaptive) -> PrimaryColor {
+        switch style {
+        case .light:    return UITheme.main.light.success
+        case .dark:     return UITheme.main.dark.success
+        case .followOS: fatalError("Cannot force success color to follow OS as that is default behavior")
+        }
+    }
+    
+    /// Returns the current palette warning color
+    public static var warning: PrimaryColor {
+        UITheme.main.active().warning
+    }
+    
+    /// Returns the warning palette color of the specified style
+    ///
+    /// - parameter style: The style to force the warning color to
+    /// - returns: The warning color of the specified style
+    public static func forceWarning(style: Adaptive) -> PrimaryColor {
+        switch style {
+        case .light:    return UITheme.main.light.warning
+        case .dark:     return UITheme.main.dark.warning
+        case .followOS: fatalError("Cannot force warning color to follow OS as that is default behavior")
+        }
+    }
+    
     /// Returns the current palette error color
     public static var error: PrimaryColor {
         UITheme.main.active().error
