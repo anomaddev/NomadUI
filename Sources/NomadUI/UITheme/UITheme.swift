@@ -29,7 +29,7 @@ public class UITheme: NSObject {
     public var light:   UIPalette = .defaultLight
     public var dark:    UIPalette = .defaultDark
     
-    public var customPalletes: [String: ()]
+    public var containers: [String: DynamicContainer] = [:]
     
     public var appFont: FontFamily = .HelveticaNeue
     public var altFont: FontFamily  = .HelveticaNeue
