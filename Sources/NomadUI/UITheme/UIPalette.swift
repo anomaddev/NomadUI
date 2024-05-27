@@ -23,10 +23,10 @@ public class DynamicColor {
     
     public func color() -> UIColor {
         if #available(iOS 13.0, *) {
-            guard UITheme.main.setting == .followOS
-            else { return UITheme.main.setting == .dark ? dark : light }
+            guard NomadUI.main.theme.setting == .followOS
+            else { return NomadUI.main.theme.setting == .dark ? dark : light }
             
-            return UITheme.main.osStyle == .dark ? dark : light
+            return NomadUI.main.theme.osStyle == .dark ? dark : light
         } else {
             return light
         }

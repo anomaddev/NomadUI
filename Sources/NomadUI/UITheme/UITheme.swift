@@ -8,23 +8,15 @@
 import UIKit
 import Defaults
 
+import NomadUtilities
+
 extension Defaults.Keys {
     
     public static let theme = Key<Adaptive>("theme", default: .followOS)
     
 }
 
-
 public class UITheme: NSObject {
-    
-    public static var main: UITheme = {        
-        let thm = UITheme()
-        let active = Defaults[.theme]
-        
-        print("Active Theme: \(active.label)")
-        thm.setting = active
-        return thm
-    }()
     
     public var light:   UIPalette = .defaultLight
     public var dark:    UIPalette = .defaultDark
@@ -47,10 +39,6 @@ public class UITheme: NSObject {
         }
     }
     
-    private override init() {
-        super.init()
-    }
-    
     public func setTheme(palette: UIPalette) {
         switch palette.adaptive {
         case .light:    light = palette
@@ -60,6 +48,15 @@ public class UITheme: NSObject {
     }
     
     public func active() -> UIPalette {
+        if NomadUtilities.shared.environment == .development {
+            if let override = NomadUI.main.overrideThemeStyle {
+                guard setting == .followOS
+                else { return setting == .dark ? dark : light }
+                
+                return osStyle == .dark ? dark : light
+            }
+        }
+        
         if #available(iOS 13.0, *) {
             guard setting == .followOS
             else { return setting == .dark ? dark : light }

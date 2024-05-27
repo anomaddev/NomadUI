@@ -83,7 +83,7 @@ public enum Font: String, CaseIterable {
                         alternative: Bool! = false) -> UIFont
     {
         guard let size = size else { return UIFont(name: "HelveticaNeue", size: 14)! }
-        let fontFamily = alternative ? UITheme.main.altFont : UITheme.main.appFont
+        let fontFamily = alternative ? NomadUI.main.theme.altFont : NomadUI.main.theme.appFont
         
         guard fontFamily.enabled.contains(self)
         else {

@@ -20,6 +20,7 @@ public enum NMDViewAttribute: NMDAttribute {
         switch self {
         case .tag:          return "tag"
             
+        case .frame:        return "frame"
         case .setHeight:    return "setHeight"
         case .setWidth:     return "setWidth"
         case .setSize:      return "setSize"
@@ -46,6 +47,7 @@ public enum NMDViewAttribute: NMDAttribute {
     
     case tag(Int)
     
+    case frame(CGRect)
     case setHeight(CGFloat)
     case setWidth(CGFloat)
     case setSize(CGSize)
@@ -84,7 +86,14 @@ public class NMDView: UIView, NMDElement {
     }
     
     public init(_ attributes: [NMDAttributeCategory] = []) {
-        super.init(frame: .zero)
+        let given = attributes.reduce([]) { $0 + $1.attributes }
+        if let frame = given.first(where: { $0.value == "frame" }) as? NMDViewAttribute {
+            switch frame {
+            case .frame(let rect): super.init(frame: rect)
+            default: super.init(frame: .zero)
+            }
+        } else { super.init(frame: .zero) }
+        
         setup(attributes)
     }
     

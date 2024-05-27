@@ -24,10 +24,17 @@ public enum NMDStackAttribute: NMDAttribute {
         case .spacing:      return "spacing"
         }
     }
-
+    
+    /// axis of the stackview, default is `.vertical`
     case direction(NSLayoutConstraint.Axis)
+    
+    /// distribution of the stackview, default is `.fill`
     case distribution(UIStackView.Distribution)
+    
+    /// alignment of the stackview, default is `.fill`
     case alignment(UIStackView.Alignment)
+    
+    /// spacing between the stackview's arrangedSubviews, default is `10`
     case spacing(CGFloat)
     
 }
@@ -56,6 +63,7 @@ open class NMDStack: UIStackView, NMDElement {
     
     var defaultAttributes: [NMDAttributeCategory] = [
         .stackAttributes([
+            .direction(.vertical),
             .distribution(.fill),
             .alignment(.fill),
             .spacing(10)

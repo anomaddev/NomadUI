@@ -42,7 +42,7 @@ open class RoutingController: FAPanelController {
     //    public var rightMenuWidth: CGFloat  = UIScreen.main.bounds.width * 3/5
     //    { didSet { configs.rightPanelWidth = rightMenuWidth }}
     
-    public var palatte: UIPalette = UITheme.main.active()
+    public var palatte: UIPalette = NomadUI.main.theme.active()
     
     public var navigation: NavigationController?
     
