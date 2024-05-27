@@ -24,6 +24,8 @@ public enum NMDLabelAttribute: NMDAttribute {
         case .font:         return "font"
         case .altfont:      return "altfont"
         case .numberOfLines: return "numberOfLines"
+        case .autoAdjustFont: return "autoAdjustFont"
+        case .minimumScaleFactor: return "minimumScaleFactor"
         }
     }
     
@@ -33,6 +35,8 @@ public enum NMDLabelAttribute: NMDAttribute {
     case font(weight: Font, size: CGFloat)
     case altfont(weight: Font, size: CGFloat)
     case numberOfLines(Int)
+    case autoAdjustFont(Bool)
+    case minimumScaleFactor(CGFloat)
     
 }
 
@@ -86,6 +90,13 @@ public class NMDLabel: UILabel, NMDElement {
             
         case .numberOfLines(let lines):
             numberOfLines = lines
+            
+        case .autoAdjustFont(let adjust):
+            adjustsFontSizeToFitWidth = adjust
+            minimumScaleFactor = 0.75
+            
+        case .minimumScaleFactor(let factor):
+            minimumScaleFactor = factor
         }
     }
     
