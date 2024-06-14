@@ -26,7 +26,7 @@ public enum NMDButtonAttribute: NMDAttribute {
     }
     
     case title(String)
-    case icon(UIImage)
+    case icon(UIImage?)
     case iconInsets(UIEdgeInsets)
     case iconTintColor(UIColor)
     
