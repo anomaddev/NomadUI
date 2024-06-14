@@ -21,6 +21,11 @@ public class DynamicColor {
         self.dark = dark
     }
     
+    public init(unified: UIColor) {
+        self.light = unified
+        self.dark = unified
+    }
+    
     public func color() -> UIColor {
         if #available(iOS 13.0, *) {
             guard NomadUI.main.theme.setting == .followOS
@@ -43,10 +48,10 @@ public class DynamicContainer {
         self.onContainer = onColor
     }
     
-    public func color() -> UIColor 
+    public func color() -> UIColor
     { return container.color() }
     
-    public func onColor() -> UIColor 
+    public func onColor() -> UIColor
     { return onContainer.color() }
 }
 
@@ -121,6 +126,16 @@ public struct PrimaryColor {
         self.containerColor = .init(containerColor)
         self.onContainerColor = .init(onContainerColor)
     }
+    
+    public init(
+        containerless: UIColor,
+        onContainerless: UIColor
+    ) {
+        self.color = containerless
+        self.onColor = onContainerless
+        self.containerColor = containerless
+        self.onContainerColor = onContainerless
+    }
 }
 
 public struct BackgroundColor {
@@ -140,6 +155,16 @@ public struct BackgroundColor {
         self.onColor = .init(onColor)
         self.surface = .init(surface)
         self.onSurface = .init(onSurface)
+    }
+    
+    public init(
+        surfaceless: UIColor,
+        onSurfaceless: UIColor
+    ) {
+        self.color = surfaceless
+        self.onColor = onSurfaceless
+        self.surface = surfaceless
+        self.onSurface = onSurfaceless
     }
 }
 
@@ -161,12 +186,15 @@ public struct NeutralColor {
 }
 
 public enum Adaptive: String, Defaults.Serializable, CaseIterable {
+    
+    case unified
     case followOS
     case light
     case dark
     
     public var label: String {
         switch self {
+        case .unified:  return "Unified"
         case .followOS: return "Follow OS"
         case .light:    return "Light"
         case .dark:     return "Dark"

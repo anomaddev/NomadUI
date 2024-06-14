@@ -47,6 +47,11 @@ public class UITheme: NSObject {
         }
     }
     
+    public func setUnified(palette: UIPalette) {
+        light = palette
+        dark = palette
+    }
+    
     public func active() -> UIPalette {
         if NomadUtilities.shared.environment == .development {
             if let override = NomadUI.main.overrideThemeStyle {

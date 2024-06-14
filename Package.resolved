@@ -28,6 +28,24 @@
       }
     },
     {
+      "identity" : "nvactivityindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ninjaprox/NVActivityIndicatorView.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "e36ea122fa831ac587f82dbc3fb3af37a6de35fb"
+      }
+    },
+    {
+      "identity" : "swipecellkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwipeCellKit/SwipeCellKit.git",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "6d632bdf1b7309505566b0248a00f61b67415a37"
+      }
+    },
+    {
       "identity" : "uicolor-hex-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yeahdongcn/UIColor-Hex-Swift.git",

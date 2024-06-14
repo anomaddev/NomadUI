@@ -28,7 +28,7 @@ extension UIColor {
     /// - returns: The primary color of the specified style
     public static func forcePrimary(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light:    return NomadUI.main.theme.light.primary
+        case .light, .unified:    return NomadUI.main.theme.light.primary
         case .dark:     return NomadUI.main.theme.dark.primary
         case .followOS: fatalError("Cannot force primary color to follow OS as that is default behavior")
         }
@@ -45,7 +45,7 @@ extension UIColor {
     /// - returns: The secondary color of the specified style
     public static func forceSecondary(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light:    return NomadUI.main.theme.light.error
+        case .light, .unified:    return NomadUI.main.theme.light.error
         case .dark:     return NomadUI.main.theme.dark.error
         case .followOS: fatalError("Cannot force secondary color to follow OS as that is default behavior")
         }
@@ -62,7 +62,7 @@ extension UIColor {
     /// - returns: The tertiary color of the specified style
     public static func forceTertiary(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light:    return NomadUI.main.theme.light.error
+        case .light, .unified:    return NomadUI.main.theme.light.error
         case .dark:     return NomadUI.main.theme.dark.error
         case .followOS: fatalError("Cannot force tertiary color to follow OS as that is default behavior")
         }
@@ -79,7 +79,7 @@ extension UIColor {
     /// - returns: The success color of the specified style
     public static func forceSuccess(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light:    return NomadUI.main.theme.light.success
+        case .light, .unified:    return NomadUI.main.theme.light.success
         case .dark:     return NomadUI.main.theme.dark.success
         case .followOS: fatalError("Cannot force success color to follow OS as that is default behavior")
         }
@@ -96,7 +96,7 @@ extension UIColor {
     /// - returns: The warning color of the specified style
     public static func forceWarning(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light:    return NomadUI.main.theme.light.warning
+        case .light, .unified:    return NomadUI.main.theme.light.warning
         case .dark:     return NomadUI.main.theme.dark.warning
         case .followOS: fatalError("Cannot force warning color to follow OS as that is default behavior")
         }
@@ -113,7 +113,7 @@ extension UIColor {
     /// - returns: The error color of the specified style
     public static func forceError(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light:    return NomadUI.main.theme.light.error
+        case .light, .unified:    return NomadUI.main.theme.light.error
         case .dark:     return NomadUI.main.theme.dark.error
         case .followOS: fatalError("Cannot force error color to follow OS as that is default behavior")
         }
@@ -130,7 +130,7 @@ extension UIColor {
     /// - returns: The background color of the specified style
     public static func forceBackground(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light:    return NomadUI.main.theme.light.error
+        case .light, .unified:    return NomadUI.main.theme.light.error
         case .dark:     return NomadUI.main.theme.dark.error
         case .followOS: fatalError("Cannot force background color to follow OS as that is default behavior")
         }
@@ -147,7 +147,7 @@ extension UIColor {
     /// - returns: The neutral color of the specified style
     public static func forceNeutral(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light:    return NomadUI.main.theme.light.error
+        case .light, .unified:    return NomadUI.main.theme.light.error
         case .dark:     return NomadUI.main.theme.dark.error
         case .followOS: fatalError("Cannot force neutral color to follow OS as that is default behavior")
         }

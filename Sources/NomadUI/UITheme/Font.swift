@@ -45,6 +45,39 @@ public enum FontFamily: String, CaseIterable {
             return [.Black, .BlackItalic, .Bold, .BoldItalic, .ExtraBold, .ExtraBoldItalic, .Italic, .Light, .LightItalic, .MediumItalic, .Regular, .SemiBold, .SemiBoldItalic]
         }
     }
+    
+    private var bold: Font { .Bold }
+    private var medium: Font {
+        switch self {
+        case .Bison:    return .Bold
+        case .PTSans:   return .Regular
+        case .Rubik:    return .SemiBold
+        default:        return .Medium
+        }
+    }
+    
+    private var regular: Font {
+        switch self {
+        case .Bison:    return .Bold
+        case .FuturaPT: return .Book
+        default:        return .Regular
+        }
+    }
+    
+    func getStyle(_ style: NMDLabelStyle) -> UIFont {
+        switch style {
+        case .H1: return bold.getFont(size: 32)
+        case .H2: return medium.getFont(size: 24)
+        case .H3: return medium.getFont(size: 18)
+        case .H4: return bold.getFont(size: 18)
+        case .H5: return medium.getFont(size: 16)
+        case .H6: return bold.getFont(size: 14)
+            
+        case .B(let size): return bold.getFont(size: size)
+        case .M(let size): return medium.getFont(size: size)
+        case .P(let size): return regular.getFont(size: size)
+        }
+    }
 }
 
 public enum Font: String, CaseIterable {

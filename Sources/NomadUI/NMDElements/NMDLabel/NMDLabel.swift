@@ -14,6 +14,19 @@ import NomadUtilities
 // Utilities
 import Cartography
 
+public enum NMDLabelStyle: Hashable {
+    case H1, 
+         H2,
+         H3,
+         H4,
+         H5,
+         H6,
+         
+         B(size: CGFloat),
+         M(size: CGFloat),
+         P(size: CGFloat)
+}
+
 public enum NMDLabelAttribute: NMDAttribute {
     
     public var value: String {
@@ -51,6 +64,30 @@ public class NMDLabel: UILabel, NMDElement {
     public init(_ attributes: [NMDAttributeCategory] = []) {
         super.init(frame: .zero)
         setup(attributes)
+    }
+    
+    public init(
+        _ text: String? = nil,
+        style: NMDLabelStyle! = .H3,
+        alternative: Bool! = false,
+        color: UIColor! = .background.onColor,
+        align: NSTextAlignment! = .left,
+        height: CGFloat? = nil
+    ) {
+        super.init(frame: .zero)
+        self.text = text
+        self.textColor = color
+        self.textAlignment = align
+        self.font = {
+            let fontFamily: FontFamily = {
+                if alternative { return NomadUI.main.theme.altFont }
+                return NomadUI.main.theme.appFont
+            }()
+            
+            return fontFamily.getStyle(style)
+        }()
+        
+        if let height = height { self.setHeight(height) }
     }
     
     internal func setup(_ attributes: [NMDAttributeCategory]) {
