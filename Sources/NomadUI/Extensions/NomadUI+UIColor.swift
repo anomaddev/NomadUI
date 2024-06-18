@@ -12,10 +12,10 @@ import NomadUtilities
 
 extension UIColor {
     
-    static var Foreground: NSAttributedString.Key = .foregroundColor
-    static var Background: NSAttributedString.Key = .backgroundColor
-    
-    static let FacebookBlue: UIColor = .init("#1877F2")
+    public static var Foreground: NSAttributedString.Key = .foregroundColor
+    public static var Background: NSAttributedString.Key = .backgroundColor
+     
+    public static let FacebookBlue: UIColor = .init("#1877F2")
     
     /// Returns the current palette primary color
     public static var primary: PrimaryColor {

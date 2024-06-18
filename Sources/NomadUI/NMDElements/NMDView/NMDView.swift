@@ -32,6 +32,8 @@ public enum NMDViewAttribute: NMDAttribute {
             
         case .clipsToBounds: return "clipsToBounds"
         case .cornerRadius: return "cornerRadius"
+        case .corners:      return "corners"
+            
         case .borderWidth:  return "borderWidth"
         case .borderColor:  return "borderColor"
             
@@ -59,6 +61,8 @@ public enum NMDViewAttribute: NMDAttribute {
     
     case clipsToBounds(Bool)
     case cornerRadius(CGFloat)
+    case corners(CACornerMask)
+    
     case borderWidth(CGFloat)
     case borderColor(UIColor)
     
@@ -72,7 +76,7 @@ public enum NMDViewAttribute: NMDAttribute {
     
 }
 
-public class NMDView: UIView, NMDElement {
+open class NMDView: UIView, NMDElement {
     
     var defaultAttributes: [NMDAttributeCategory] = [
         .viewAttributes([
@@ -108,6 +112,20 @@ public class NMDView: UIView, NMDElement {
             if let attribute = $0 as? NMDViewAttribute
             { setViewAttribute(attribute) }
         }
+    }
+    
+    required public init?(coder: NSCoder)
+    { super.init(coder: coder) }
+}
+
+public class Spacer: NMDView {
+    public init(w: CGFloat? = nil, h: CGFloat? = nil) {
+        var attributes: [NMDViewAttribute] = []
+        if let w = w { attributes.append(.setWidth(w)) }
+        if let h = h { attributes.append(.setHeight(h)) }
+        
+        super.init([.viewAttributes(attributes)])
+        backgroundColor = .clear
     }
     
     required public init?(coder: NSCoder)
@@ -154,6 +172,9 @@ extension UIView {
         case .cornerRadius(let radius):
             layer.cornerRadius = radius
             layer.masksToBounds = true
+            
+        case .corners(let corners):
+            layer.maskedCorners = corners
             
         case .borderWidth(let width):
             layer.borderWidth = width

@@ -25,20 +25,47 @@ public enum NMDLabelStyle: Hashable {
          B(size: CGFloat),
          M(size: CGFloat),
          P(size: CGFloat)
+    
+    var generic: Generic {
+        switch self {
+        case .H1: return .H1
+        case .H2: return .H2
+        case .H3: return .H3
+        case .H4: return .H4
+        case .H5: return .H5
+        case .H6: return .H6
+        case .B: return .B
+        case .M: return .M
+        case .P: return .P
+        }
+    }
+    
+    enum Generic: Hashable {
+        case H1,
+             H2,
+             H3,
+             H4,
+             H5,
+             H6,
+             B,
+             M,
+             P
+    }
 }
 
 public enum NMDLabelAttribute: NMDAttribute {
     
     public var value: String {
         switch self {
-        case .text:         return "text"
-        case .textColor:    return "textColor"
-        case .textAlignment: return "textAlignment"
-        case .font:         return "font"
-        case .altfont:      return "altfont"
-        case .numberOfLines: return "numberOfLines"
-        case .autoAdjustFont: return "autoAdjustFont"
-        case .minimumScaleFactor: return "minimumScaleFactor"
+        case .text:                 return "text"
+        case .textColor:            return "textColor"
+        case .textAlignment:        return "textAlignment"
+        case .font:                 return "font"
+        case .altfont:              return "altfont"
+        case .numberOfLines:        return "numberOfLines"
+        case .autoAdjustFont:       return "autoAdjustFont"
+        case .minimumScaleFactor:   return "minimumScaleFactor"
+        case .textPadding:          return "textPadding"
         }
     }
     
@@ -50,6 +77,7 @@ public enum NMDLabelAttribute: NMDAttribute {
     case numberOfLines(Int)
     case autoAdjustFont(Bool)
     case minimumScaleFactor(CGFloat)
+    case textPadding(UIEdgeInsets)
     
 }
 
@@ -60,6 +88,8 @@ public class NMDLabel: UILabel, NMDElement {
             .textColor(.background.onColor)
         ])
     ]
+    
+    var padding: UIEdgeInsets = .zero
     
     public init(_ attributes: [NMDAttributeCategory] = []) {
         super.init(frame: .zero)
@@ -88,6 +118,7 @@ public class NMDLabel: UILabel, NMDElement {
         }()
         
         if let height = height { self.setHeight(height) }
+        if style.generic == .P { self.numberOfLines = 0 }
     }
     
     internal func setup(_ attributes: [NMDAttributeCategory]) {
@@ -104,6 +135,9 @@ public class NMDLabel: UILabel, NMDElement {
             if let attribute = $0 as? NMDLabelAttribute
             { setLabelAttribute(attribute) }
         }
+        
+        sizeToFit()
+        layoutIfNeeded()
     }
     
     public func setLabelAttribute(_ attribute: NMDLabelAttribute) {
@@ -134,9 +168,22 @@ public class NMDLabel: UILabel, NMDElement {
             
         case .minimumScaleFactor(let factor):
             minimumScaleFactor = factor
+            
+        case .textPadding(let insets):
+            padding = insets
         }
     }
     
+    public override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.inset(by: padding))
+    }
+    
+    public override var intrinsicContentSize : CGSize {
+        let superContentSize = super.intrinsicContentSize
+        let width = superContentSize.width + padding.left + padding.right
+        let heigth = superContentSize.height + padding.top + padding.bottom
+        return CGSize(width: width, height: heigth)
+    }
     
     required public init?(coder: NSCoder)
     { super.init(coder: coder) }

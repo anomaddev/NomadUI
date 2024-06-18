@@ -27,11 +27,9 @@ open class BasicController: UIViewController {
         }
     }
     
-    public var palatte: UIPalette = NomadUI.main.theme.active()
-    
     override open func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = palatte.background.color
+        view.backgroundColor = .background.color
         
     }
     

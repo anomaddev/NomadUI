@@ -32,7 +32,7 @@ public enum NMDButtonAttribute: NMDAttribute {
     
 }
 
-public class NMDButton: UIButton, NMDElement {
+open class NMDButton: UIButton, NMDElement {
     
     var defaultAttributes: [NMDAttributeCategory] = [
         
