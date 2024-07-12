@@ -107,6 +107,19 @@ extension UIView {
         return anchoredConstraints
     }
     
+    public func setWidthVsHeight(_ ratio: CGFloat) {
+        constrain(self)
+        { view in view.width ~== view.height * ratio }
+    }
+    
+    public func setHeightVsWidth(_ ratio: CGFloat) {
+        constrain(self)
+        { view in view.height ~== view.width * ratio }
+    }
+    
+    public func squareAspect() 
+    { setWidthVsHeight(1) }
+    
     /**
      This function adds the view, on which we call the function, to a specified parent view controller and afixes the constrains to the size of the parent view's margins.
      
@@ -159,6 +172,37 @@ extension UIView {
         }
         
         view.layoutIfNeeded()
+    }
+    
+    /**
+     This function will center a `UIView` with a given parent `UIView`
+    
+     - parameter view: The parent `UIView` that you want to center with
+     - parameter axis: The axis that you want to center on, this is optional and defaults to both horizontal and vertical
+    
+     ### Usage Example: ###
+     ```swift
+     let child = UIView()
+     let parent = UIView()
+    
+     child.centerOn(parent, axis: .horizontal)
+    */
+    public func centerOn(
+        _ view: UIView,
+        axis: Set<NSLayoutConstraint.Axis>! = [.horizontal, .vertical]
+    ) {
+        constrain(view, self)
+        { parent, child in
+            if axis.contains(.horizontal) { child.centerX ~== parent.centerX }
+            if axis.contains(.vertical) { child.centerY ~== parent.centerY }
+        }
+        
+        view.layoutIfNeeded()
+    }
+    
+    public func centerInSuperview(axis: Set<NSLayoutConstraint.Axis>! = [.horizontal, .vertical]) {
+        guard let view = superview else { return }
+        centerOn(view, axis: axis)
     }
     
     /// This function will size the a `UIView` with a given parent `UIView`

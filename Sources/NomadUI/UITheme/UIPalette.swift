@@ -11,6 +11,33 @@ import Defaults
 
 // TODO: Make optional to fallback on default values if not specified
 
+public class DynamicImage {
+    
+    public var light: UIImage
+    public var dark: UIImage
+    
+    public init(light: UIImage, dark: UIImage) {
+        self.light = light
+        self.dark = dark
+    }
+    
+    public init(unified: UIImage) {
+        self.light = unified
+        self.dark = unified
+    }
+    
+    public func image() -> UIImage {
+        if #available(iOS 13.0, *) {
+            guard NomadUI.main.theme.setting == .followOS
+            else { return NomadUI.main.theme.setting == .dark ? dark : light }
+            
+            return NomadUI.main.theme.osStyle == .dark ? dark : light
+        } else {
+            return light
+        }
+    }
+}
+
 public class DynamicColor {
     
     public var light: UIColor

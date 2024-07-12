@@ -81,7 +81,7 @@ public enum NMDLabelAttribute: NMDAttribute {
     
 }
 
-public class NMDLabel: UILabel, NMDElement {
+open class NMDLabel: UILabel, NMDElement {
     
     var defaultAttributes: [NMDAttributeCategory] = [
         .labelAttributes([
