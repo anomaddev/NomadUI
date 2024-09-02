@@ -61,6 +61,7 @@ public class NMDImageView: UIImageView, NMDElement {
             // ImageView
         case .image(let img):
             image = img
+            
         }
     }
     

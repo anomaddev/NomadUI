@@ -37,6 +37,7 @@ public enum NMDAttributeCategory {
     case labelAttributes([NMDLabelAttribute])
     case imageAttributes([NMDImageViewAttribute])
     case stackAttributes([NMDStackAttribute])
+    case progressAttributes([NMDProgressAttribute])
     
     var attributes: [any NMDAttribute] {
         switch self {
@@ -45,6 +46,7 @@ public enum NMDAttributeCategory {
         case .labelAttributes(let attributes):  return attributes
         case .imageAttributes(let attributes):  return attributes
         case .stackAttributes(let attributes):  return attributes
+        case .progressAttributes(let attributes): return attributes
         }
     }
 }

@@ -33,8 +33,8 @@ open class NMDHeaderFooter: UITableViewHeaderFooterView {
     public static func register(on table: UITableView)
     { table.register(self, forHeaderFooterViewReuseIdentifier: id)}
     
-    public static func dequeue(on table: UITableView) -> NMDHeaderFooter?
-    { return table.dequeueReusableHeaderFooterView(withIdentifier: id) as? NMDHeaderFooter }
+    public static func dequeue(on table: UITableView) -> Self?
+    { return table.dequeueReusableHeaderFooterView(withIdentifier: id) as? Self }
     
     override open func prepareForReuse() {
         super.prepareForReuse()
@@ -44,10 +44,18 @@ open class NMDHeaderFooter: UITableViewHeaderFooterView {
         }
     }
     
-    open func layout(title: String? = nil,
-                     subtitle: String? = nil,
-                     insets: UIEdgeInsets? = .surrounding(vertical: 5, horizontal: 15),
-                     style header: NMDLabelStyle! = .H3) {
+    open func basicTitle(_ text: String) {
+        titleView = NMDLabel(text, style: .B(size: 19), height: 25)
+        row.addArrangedSubview(titleView)
+        row.fitTo(self, padding: .surrounding(vertical: 5, horizontal: 15))
+        
+        layoutIfNeeded()
+    }
+    
+    open func defaultLayout(title: String? = nil,
+                            subtitle: String? = nil,
+                            insets: UIEdgeInsets? = .surrounding(vertical: 5, horizontal: 15),
+                            style header: NMDLabelStyle! = .H3) {
         titleView = NMDLabel(title, style: header, height: 20)
         subtitleView.text = subtitle
         

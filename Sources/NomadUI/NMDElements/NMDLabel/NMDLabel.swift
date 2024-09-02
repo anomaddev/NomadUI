@@ -15,7 +15,7 @@ import NomadUtilities
 import Cartography
 
 public enum NMDLabelStyle: Hashable {
-    case H1, 
+    case H1,
          H2,
          H3,
          H4,
@@ -102,7 +102,8 @@ open class NMDLabel: UILabel, NMDElement {
         alternative: Bool! = false,
         color: UIColor! = .background.onColor,
         align: NSTextAlignment! = .left,
-        height: CGFloat? = nil
+        height: CGFloat? = nil,
+        numberOfLines: Int! = 1
     ) {
         super.init(frame: .zero)
         self.text = text
@@ -116,6 +117,8 @@ open class NMDLabel: UILabel, NMDElement {
             
             return fontFamily.getStyle(style)
         }()
+        
+        self.numberOfLines = numberOfLines
         
         if let height = height { self.setHeight(height) }
         if style.generic == .P { self.numberOfLines = 0 }
@@ -187,4 +190,89 @@ open class NMDLabel: UILabel, NMDElement {
     
     required public init?(coder: NSCoder)
     { super.init(coder: coder) }
+}
+
+open class Paragraph: NMDLabel {
+    public init(
+        _ text: String? = nil,
+        size: CGFloat! = 15
+    ) {
+        super.init(
+            text,
+            style: .P(size: size),
+            align: .justified,
+            numberOfLines: 0
+        )
+    }
+    
+    required public init?(coder: NSCoder)
+    { fatalError("init(coder:) has not been implemented") }
+}
+
+open class SubHeader: NMDLabel {
+    public init(
+        _ text: String? = nil,
+        size: CGFloat! = 15
+    ) {
+        super.init(
+            text,
+            style: .B(size: size),
+            align: .justified,
+            numberOfLines: 0
+        )
+    }
+    
+    required public init?(coder: NSCoder)
+    { fatalError("init(coder:) has not been implemented") }
+}
+
+open class List: NMDLabel {
+    public init(
+        description: String? = nil,
+        fontSize: CGFloat! = 15,
+        listItems: [LabelListItem]! = []
+    ) {
+        super.init(
+            description,
+            style: .P(size: fontSize),
+            align: .left,
+            numberOfLines: 0
+        )
+        
+        text = nil
+        let list = description?.mutable(attributes: [
+            .font:              Font.Regular.getFont(size: fontSize),
+            .foregroundColor:   UIColor.background.onColor
+        ])
+        
+        for (i, item) in listItems.enumerated() {
+            let title = item.title != nil ? "\(item.title ?? ""):  " : ""
+            let listNum = "\n\n\(i + 1).  \(title)".mutable(attributes: [
+                .font:              Font.Bold.getFont(size: fontSize),
+                .foregroundColor:   UIColor.background.onColor
+            ])
+            
+            listNum.append(item.item.mutable(attributes: [
+                .font:              Font.Regular.getFont(size: fontSize),
+                .foregroundColor:   UIColor.background.onColor
+            ]))
+            
+            list?.append(listNum)
+        }
+        
+        attributedText = list
+    }
+    
+    required public init?(coder: NSCoder)
+    { fatalError("init(coder:) has not been implemented") }
+}
+
+public struct LabelListItem {
+    public var title: String?
+    public var item: String
+    
+    public init(title: String? = nil, item: String) {
+        self.title = title
+        self.item = item
+    }
 }

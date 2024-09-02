@@ -244,4 +244,24 @@ extension UIView {
         
         view.layoutIfNeeded()
     }
+    
+    /// This function will align a `UIView` to the right of a given parent `UIView`
+    public func alignRight(spacing: CGFloat! = 0, to view: UIView) {
+        constrain(view, self)
+        { parent, child in
+            child.right ~== parent.right - spacing
+        }
+        
+        view.layoutIfNeeded()
+    }
+    
+    /// This function will align a `UIView` to the left of a given parent `UIView`
+    public func alignLeft(spacing: CGFloat! = 0, to view: UIView) {
+        constrain(view, self)
+        { parent, child in
+            child.left ~== parent.left + spacing
+        }
+        
+        view.layoutIfNeeded()
+    }
 }

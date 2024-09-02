@@ -166,6 +166,9 @@ extension UIView {
         case .contentMode(let mode):
             contentMode = mode
             
+            if let isBtn = self as? UIButton 
+            { isBtn.imageView?.contentMode = mode }
+            
         case .clipsToBounds(let clip):
             layer.masksToBounds = clip
             

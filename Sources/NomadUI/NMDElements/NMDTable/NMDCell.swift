@@ -22,9 +22,9 @@ open class NMDCell: UITableViewCell {
     public static func register(on table: UITableView)
     { table.register(self, forCellReuseIdentifier: cellId)}
     
-    public static func dequeue(on table: UITableView, for index: IndexPath? = nil) -> NMDCell? {
-        if let i = index { return table.dequeueReusableCell(withIdentifier: cellId, for: i) as? NMDCell }
-        else { return table.dequeueReusableCell(withIdentifier: cellId) as? NMDCell }
+    public static func dequeue(on table: UITableView, for index: IndexPath? = nil) -> Self? {
+        if let i = index { return table.dequeueReusableCell(withIdentifier: cellId, for: i) as? Self }
+        else { return table.dequeueReusableCell(withIdentifier: cellId) as? Self }
     }
     
 //    open func layout(with model: TableCellModel) {
