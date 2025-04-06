@@ -26,7 +26,7 @@ public enum NMDImageViewAttribute: NMDAttribute {
     
 }
 
-public class NMDImageView: UIImageView, NMDElement {
+open class NMDImageView: UIImageView, NMDElement {
     
     var defaultAttributes: [NMDAttributeCategory] = [
         .viewAttributes([

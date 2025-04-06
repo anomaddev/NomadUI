@@ -223,10 +223,13 @@ extension UIView {
     ///
     /// - parameter view: The parent `UIView` that you want to match width with
     ///
-    public func sameWidth(as view: UIView) {
+    public func sameWidth(
+        as view: UIView,
+        padding: CGFloat! = 0
+    ) {
         constrain(view, self)
         { parent, child in
-            child.width ~== parent.width
+            child.width ~== parent.width - (padding * 2)
         }
         
         view.layoutIfNeeded()
@@ -236,10 +239,13 @@ extension UIView {
     ///
     /// - parameter view: The parent `UIView` that you want to match height with
     ///
-    public func sameHeight(as view: UIView) {
+    public func sameHeight(
+        as view: UIView,
+        padding: CGFloat! = 0
+    ) {
         constrain(view, self)
         { parent, child in
-            child.height ~== parent.height
+            child.height ~== parent.height - (padding * 2)
         }
         
         view.layoutIfNeeded()

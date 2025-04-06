@@ -101,6 +101,17 @@ open class NMDView: UIView, NMDElement {
         setup(attributes)
     }
     
+    public init(view attributes: [NMDViewAttribute] = []) {
+        if let frame = attributes.first(where: { $0.value == "frame" }) as? NMDViewAttribute {
+            switch frame {
+            case .frame(let rect): super.init(frame: rect)
+            default: super.init(frame: .zero)
+            }
+        } else { super.init(frame: .zero) }
+        
+        setup([.viewAttributes(attributes)])
+    }
+    
     internal func setup(_ attributes: [NMDAttributeCategory]) {
         let given = attributes.reduce([]) { $0 + $1.attributes }
         let defaults = defaultAttributes

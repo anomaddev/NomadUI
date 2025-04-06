@@ -43,8 +43,8 @@ public enum NMDProgressAttribute: NMDAttribute {
 open class NMDProgress: UIView, NMDElement {
     
     private var modifiers: ConstraintGroup = ConstraintGroup()
-    lazy var background: NMDView = NMDView()
-    lazy var progress: NMDView = NMDView()
+    lazy var background: NMDView = NMDView([])
+    lazy var progress: NMDView = NMDView([])
     
     var defaultAttributes: [NMDAttributeCategory] = [
         .viewAttributes([
