@@ -135,10 +135,10 @@ public enum Font: String, CaseIterable {
             let fallback = fontFamily != .HelveticaNeue ? "\(fontFamily.rawValue)-\(Font.Regular.rawValue)" : fontFamily.rawValue
             guard let font = UIFont(name: fallback, size: size)
             else {
-                print("The Font: \(thefont)")
-                print("The Fallback: \(fallback)")
-                fatalError("You are attempting to get an invalid font and the fallback failed")
-            } // THROW:
+                print("FALLING BACK TO SYSTEM FONT")
+                return UIFont.systemFont(ofSize: size, weight: .medium)
+            }
+            
             return font
         }
         return font

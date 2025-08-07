@@ -9,6 +9,9 @@ import UIKit
 
 public struct NomadAnimateParams {
     
+    public static func duration(_ time: TimeInterval) -> NomadAnimateParams
+    { return .init(duration: time) }
+    
     public var duration: TimeInterval = 0.3
     public var delay: TimeInterval = 0
     public var curve: UIView.AnimationOptions = .curveEaseInOut
