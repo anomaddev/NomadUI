@@ -15,7 +15,7 @@ let package = Package(
             targets: ["NomadUI"]),
     ],
     dependencies: [
-        .package(path: "../NomadUtilities"),
+        .package(url: "https://github.com/anomaddev/NomadUtilities.git", branch: "main"),
         .package(url: "https://github.com/yeahdongcn/UIColor-Hex-Swift.git", from: "5.1.0"),
         .package(url: "https://github.com/anomaddev/FAPanels.git", branch: "master"),
         .package(url: "https://github.com/anomaddev/Cartography.git", .upToNextMajor(from: "4.0.0")),
