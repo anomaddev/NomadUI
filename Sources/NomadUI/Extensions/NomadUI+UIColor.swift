@@ -128,10 +128,10 @@ extension UIColor {
     ///
     /// - parameter style: The style to force the background color to
     /// - returns: The background color of the specified style
-    public static func forceBackground(style: Adaptive) -> PrimaryColor {
+    public static func forceBackground(style: Adaptive) -> BackgroundColor {
         switch style {
-        case .light, .unified:    return NomadUI.main.theme.light.error
-        case .dark:     return NomadUI.main.theme.dark.error
+        case .light, .unified:    return NomadUI.main.theme.light.background
+        case .dark:     return NomadUI.main.theme.dark.background
         case .followOS: fatalError("Cannot force background color to follow OS as that is default behavior")
         }
     }
