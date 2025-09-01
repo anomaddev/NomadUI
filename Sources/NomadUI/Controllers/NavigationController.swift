@@ -12,6 +12,7 @@ open class NavigationController: UINavigationController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.isHidden = true
+        interactivePopGestureRecognizer?.isEnabled = false
     }
     
     public func fadeTo(_ viewController: UIViewController) {
