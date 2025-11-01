@@ -36,11 +36,15 @@ open class RoutingController: FAPanelController {
         return configs
     }()
     
-    open var leftMenuWidth: CGFloat   = (UIScreen.main.bounds.width / 2) + 50
-    { didSet { configs.leftPanelWidth = leftMenuWidth }}
+    open var leftMenuWidth: CGFloat {
+        get { configs.leftPanelWidth }
+        set { configs.leftPanelWidth = newValue }
+    }
 
-    open var rightMenuWidth: CGFloat  = UIScreen.main.bounds.width * 3/5
-    { didSet { configs.rightPanelWidth = rightMenuWidth }}
+    open var rightMenuWidth: CGFloat {
+        get { configs.rightPanelWidth }
+        set { configs.rightPanelWidth = newValue }
+    }
     
     public var palatte: UIPalette = NomadUI.main.theme.active()
     
@@ -49,8 +53,8 @@ open class RoutingController: FAPanelController {
     init(withConfig configs: FAPanelConfigurations) {
         super.init()
         self.configs = configs
-        configs.leftPanelWidth = leftMenuWidth
-        configs.rightPanelWidth = rightMenuWidth
+        configs.leftPanelWidth = defaultLeftMenuWidth
+        configs.rightPanelWidth = defaultRightMenuWidth
         leftPanelPosition = .front
         rightPanelPosition = .back
     }
@@ -69,10 +73,18 @@ open class RoutingController: FAPanelController {
     
     private func defaultSetup() {
         configs = Self.defaultConfig
-        configs.leftPanelWidth = leftMenuWidth
-        configs.rightPanelWidth = rightMenuWidth
+        configs.leftPanelWidth = defaultLeftMenuWidth
+        configs.rightPanelWidth = defaultRightMenuWidth
         leftPanelPosition = .front
         rightPanelPosition = .back
+    }
+    
+    open var defaultLeftMenuWidth: CGFloat {
+        return (UIScreen.main.bounds.width / 2) + 50
+    }
+    
+    open var defaultRightMenuWidth: CGFloat {
+        return UIScreen.main.bounds.width * 3/5
     }
     
     required public init?(coder: NSCoder)
