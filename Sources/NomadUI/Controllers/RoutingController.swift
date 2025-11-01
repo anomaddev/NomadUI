@@ -57,8 +57,6 @@ open class RoutingController: FAPanelController {
     init(withConfig configs: FAPanelConfigurations) {
         super.init()
         var configs = configs
-        configs.leftPanelWidth = defaultLeftMenuWidth
-        configs.rightPanelWidth = defaultRightMenuWidth
         configurePanelConfigs(&configs)
         
         self.configs = configs
@@ -80,21 +78,11 @@ open class RoutingController: FAPanelController {
     
     private func defaultSetup() {
         var configs = Self.defaultConfig
-        configs.leftPanelWidth = defaultLeftMenuWidth
-        configs.rightPanelWidth = defaultRightMenuWidth
         configurePanelConfigs(&configs)
         
         self.configs = configs
         leftPanelPosition = .front
         rightPanelPosition = .back
-    }
-    
-    open var defaultLeftMenuWidth: CGFloat {
-        return (UIScreen.main.bounds.width / 2) + 50
-    }
-    
-    open var defaultRightMenuWidth: CGFloat {
-        return UIScreen.main.bounds.width * 3/5
     }
     
     required public init?(coder: NSCoder)
