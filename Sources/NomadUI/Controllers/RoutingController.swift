@@ -54,7 +54,7 @@ open class RoutingController: FAPanelController {
         // Default implementation does nothing - subclasses can override to customize
     }
     
-    init(withConfig configs: FAPanelConfigurations) {
+    public init(withConfig configs: FAPanelConfigurations) {
         super.init()
         var configs = configs
         configurePanelConfigs(&configs)
