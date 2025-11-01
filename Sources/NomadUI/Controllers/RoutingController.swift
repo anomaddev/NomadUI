@@ -50,11 +50,19 @@ open class RoutingController: FAPanelController {
     
     public var navigation: NavigationController?
     
+    /// Override this method in subclasses to customize panel configurations before they're applied.
+    /// This is called after copying from the default template but before applying default widths.
+    open func configurePanelConfigs(_ configs: inout FAPanelConfigurations) {
+        // Default implementation does nothing - subclasses can override to customize
+    }
+    
     init(withConfig configs: FAPanelConfigurations) {
         super.init()
-        self.configs = configs
+        var configs = configs
+        configurePanelConfigs(&configs)
         configs.leftPanelWidth = defaultLeftMenuWidth
         configs.rightPanelWidth = defaultRightMenuWidth
+        self.configs = configs
         leftPanelPosition = .front
         rightPanelPosition = .back
     }
@@ -72,9 +80,11 @@ open class RoutingController: FAPanelController {
     }
     
     private func defaultSetup() {
-        configs = Self.defaultConfig
+        var configs = Self.defaultConfig
+        configurePanelConfigs(&configs)
         configs.leftPanelWidth = defaultLeftMenuWidth
         configs.rightPanelWidth = defaultRightMenuWidth
+        self.configs = configs
         leftPanelPosition = .front
         rightPanelPosition = .back
     }
