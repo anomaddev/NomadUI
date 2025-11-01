@@ -19,8 +19,6 @@ open class RoutingController: FAPanelController {
         var configs = FAPanelConfigurations()
         configs.colorForTapView = UIColor.black.withAlphaComponent(0.1)
         configs.shouldAnimateWithPan = true
-        configs.leftPanelWidth = 300
-        configs.rightPanelWidth = 200
         configs.resizeLeftPanel = true
         configs.resizeRightPanel = true
         configs.canLeftSwipe = false
