@@ -20,12 +20,11 @@ protocol NMDElement {
 }
 
 public protocol NMDAttribute: Equatable {
-    static func == (lhs: any NMDAttribute, rhs: any NMDAttribute) -> Bool
     var value: String { get }
 }
 
 extension NMDAttribute {
-    public static func == (lhs: any NMDAttribute, rhs: any NMDAttribute) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.value == rhs.value
     }
 }
