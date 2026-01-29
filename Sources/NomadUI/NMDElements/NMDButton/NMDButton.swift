@@ -75,6 +75,13 @@ open class NMDButton: UIButton, NMDElement {
         case .font(let weight, let size):
             titleLabel?.font = weight.getFont(size: size)
             
+        case .autoAdjustFont(let adjust):
+            titleLabel?.adjustsFontSizeToFitWidth = adjust
+            titleLabel?.minimumScaleFactor = 0.75
+            
+        case .minimumScaleFactor(let scale):
+            titleLabel?.minimumScaleFactor = scale
+            
         default: break
         }
     }
