@@ -13,6 +13,32 @@ import Cartography
 
 extension UIView {
     
+    /// Runs a UIKit animation as an async operation you can `await`.
+    ///
+    /// This wraps `UIView.animate` in a continuation so execution resumes only
+    /// after the animation completion handler is called.
+    ///
+    /// - Parameters:
+    ///   - params: Animation timing/options. Defaults to `0.3s`, no delay, and
+    ///     `.curveEaseIn`.
+    ///   - animations: The animation block to perform.
+    ///
+    public static func animateAsync(
+        params: NomadAnimateParams! = .init(duration: 0.3, delay: 0, curve: .curveEaseIn),
+        animations: @escaping () -> Void
+    ) async {
+        await withCheckedContinuation { continuation in
+            UIView.animate(
+                withDuration: params.duration,
+                delay: params.delay,
+                options: params.curve,
+                animations: animations
+            ) { _ in
+                continuation.resume()
+            }
+        }
+    }
+    
     /// Init with a color
     public convenience init(color: UIColor)
     { self.init(); backgroundColor = color }
@@ -270,4 +296,5 @@ extension UIView {
         
         view.layoutIfNeeded()
     }
+
 }
