@@ -43,7 +43,8 @@ extension UIView {
     ///
     /// Each entry in `steps` is treated as one wave step. The function iterates
     /// through the groups in order, waits for a step-based delay, then animates
-    /// all views in that group to full opacity (`alpha = 1`) using `.curveEaseOut`.
+    /// all views in that group to either full opacity (`alpha = 1`) or hidden
+    /// (`alpha = 0`) using `.curveEaseOut`.
     /// Because this function is `async`, callers can `await` it to continue only
     /// after all step animations complete.
     ///
@@ -52,14 +53,18 @@ extension UIView {
     ///   - duration: Animation duration for each group's fade-in.
     ///   - stepDelay: Delay multiplier between steps, in seconds. The delay applied
     ///     before each step is `stepDelay * index`.
+    ///   - reverse: When `true`, animates each group to `alpha = 0` instead of
+    ///     `alpha = 1` for the opposite wave effect.
     /// - Important: This implementation sleeps using `stepDelay * index` inside the
     ///   loop, so later steps wait progressively longer before starting.
     ///
     public static func wave(
         steps: [[UIView]],
         duration: TimeInterval,
-        stepDelay: TimeInterval
+        stepDelay: TimeInterval,
+        reverse: Bool = false
     ) async {
+        let targetAlpha: CGFloat = reverse ? 0 : 1
         for (index, group) in steps.enumerated() {
             try? await Task.sleep(nanoseconds: UInt64(stepDelay * Double(index) * 1_000_000_000))
             await withCheckedContinuation { continuation in
@@ -67,7 +72,7 @@ extension UIView {
                     withDuration: duration,
                     delay: 0,
                     options: [.curveEaseOut],
-                    animations: { group.forEach { $0.alpha = 1 } },
+                    animations: { group.forEach { $0.alpha = targetAlpha } },
                     completion: { _ in continuation.resume() }
                 )
             }
