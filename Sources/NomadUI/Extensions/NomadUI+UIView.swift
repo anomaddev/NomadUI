@@ -39,6 +39,41 @@ extension UIView {
         }
     }
     
+    /// Reveals views in a staggered "wave" animation across grouped steps.
+    ///
+    /// Each entry in `steps` is treated as one wave step. The function iterates
+    /// through the groups in order, waits for a step-based delay, then animates
+    /// all views in that group to full opacity (`alpha = 1`) using `.curveEaseOut`.
+    /// Because this function is `async`, callers can `await` it to continue only
+    /// after all step animations complete.
+    ///
+    /// - Parameters:
+    ///   - steps: Ordered groups of views to animate together at each wave step.
+    ///   - duration: Animation duration for each group's fade-in.
+    ///   - stepDelay: Delay multiplier between steps, in seconds. The delay applied
+    ///     before each step is `stepDelay * index`.
+    /// - Important: This implementation sleeps using `stepDelay * index` inside the
+    ///   loop, so later steps wait progressively longer before starting.
+    ///
+    public static func wave(
+        steps: [[UIView]],
+        duration: TimeInterval,
+        stepDelay: TimeInterval
+    ) async {
+        for (index, group) in steps.enumerated() {
+            try? await Task.sleep(nanoseconds: UInt64(stepDelay * Double(index) * 1_000_000_000))
+            await withCheckedContinuation { continuation in
+                UIView.animate(
+                    withDuration: duration,
+                    delay: 0,
+                    options: [.curveEaseOut],
+                    animations: { group.forEach { $0.alpha = 1 } },
+                    completion: { _ in continuation.resume() }
+                )
+            }
+        }
+    }
+    
     /// Init with a color
     public convenience init(color: UIColor)
     { self.init(); backgroundColor = color }
