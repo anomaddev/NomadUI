@@ -92,7 +92,7 @@ extension UIView {
     ///   - animations: The keyframe animation block where `addKeyframe` calls
     ///     are defined.
     ///
-    static func animateKeyframesAsync(
+    public static func animateKeyframesAsync(
         duration: TimeInterval,
         delay: TimeInterval = 0,
         options: UIView.KeyframeAnimationOptions = [],
