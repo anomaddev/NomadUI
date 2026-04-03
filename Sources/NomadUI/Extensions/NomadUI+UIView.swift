@@ -79,6 +79,36 @@ extension UIView {
         }
     }
     
+    /// Runs a UIKit keyframe animation as an async operation you can `await`.
+    ///
+    /// This wraps `UIView.animateKeyframes` in a continuation so execution
+    /// resumes only after the keyframe animation completion handler is called.
+    ///
+    /// - Parameters:
+    ///   - duration: Total duration of the keyframe animation.
+    ///   - delay: Delay before the animation begins. Defaults to `0`.
+    ///   - options: Keyframe animation options such as calculation mode and
+    ///     repeat behavior.
+    ///   - animations: The keyframe animation block where `addKeyframe` calls
+    ///     are defined.
+    ///
+    static func animateKeyframesAsync(
+        duration: TimeInterval,
+        delay: TimeInterval = 0,
+        options: UIView.KeyframeAnimationOptions = [],
+        animations: @escaping () -> Void
+    ) async {
+        await withCheckedContinuation { continuation in
+            UIView.animateKeyframes(
+                withDuration: duration,
+                delay: delay,
+                options: options,
+                animations: animations,
+                completion: { _ in continuation.resume() }
+            )
+        }
+    }
+    
     /// Init with a color
     public convenience init(color: UIColor)
     { self.init(); backgroundColor = color }
