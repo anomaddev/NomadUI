@@ -104,6 +104,31 @@ extension UIView {
         }
     }
     
+    /// Fades a group of views out together as a single async animation.
+    ///
+    /// This animates all provided views to hidden (`alpha = 0`) at the
+    /// same time using `.curveEaseOut`. Because this function is `async`,
+    /// callers can `await` it and continue only after completion.
+    ///
+    /// - Parameters:
+    ///   - views: The views to fade out together.
+    ///   - duration: Animation duration for the fade-out.
+    ///
+    public static func fadeOut(
+        views: [UIView],
+        duration: TimeInterval
+    ) async {
+        await withCheckedContinuation { continuation in
+            UIView.animate(
+                withDuration: duration,
+                delay: 0,
+                options: [.curveEaseOut],
+                animations: { views.forEach { $0.alpha = 0 } },
+                completion: { _ in continuation.resume() }
+            )
+        }
+    }
+    
     /// Runs a UIKit keyframe animation as an async operation you can `await`.
     ///
     /// This wraps `UIView.animateKeyframes` in a continuation so execution
