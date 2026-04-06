@@ -88,15 +88,17 @@ extension UIView {
     /// - Parameters:
     ///   - views: The views to fade in together.
     ///   - duration: Animation duration for the fade-in.
+    ///   - delay: Delay before the fade-in starts. Defaults to `0`.
     ///
     public static func fadeIn(
         views: [UIView],
-        duration: TimeInterval
+        duration: TimeInterval,
+        delay: TimeInterval = 0
     ) async {
         await withCheckedContinuation { continuation in
             UIView.animate(
                 withDuration: duration,
-                delay: 0,
+                delay: delay,
                 options: [.curveEaseOut],
                 animations: { views.forEach { $0.alpha = 1 } },
                 completion: { _ in continuation.resume() }
@@ -113,15 +115,17 @@ extension UIView {
     /// - Parameters:
     ///   - views: The views to fade out together.
     ///   - duration: Animation duration for the fade-out.
+    ///   - delay: Delay before the fade-out starts. Defaults to `0`.
     ///
     public static func fadeOut(
         views: [UIView],
-        duration: TimeInterval
+        duration: TimeInterval,
+        delay: TimeInterval = 0
     ) async {
         await withCheckedContinuation { continuation in
             UIView.animate(
                 withDuration: duration,
-                delay: 0,
+                delay: delay,
                 options: [.curveEaseOut],
                 animations: { views.forEach { $0.alpha = 0 } },
                 completion: { _ in continuation.resume() }
