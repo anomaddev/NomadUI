@@ -79,6 +79,31 @@ extension UIView {
         }
     }
     
+    /// Fades a group of views in together as a single async animation.
+    ///
+    /// This animates all provided views to full opacity (`alpha = 1`) at the
+    /// same time using `.curveEaseOut`. Because this function is `async`,
+    /// callers can `await` it and continue only after completion.
+    ///
+    /// - Parameters:
+    ///   - views: The views to fade in together.
+    ///   - duration: Animation duration for the fade-in.
+    ///
+    public static func fadeIn(
+        views: [UIView],
+        duration: TimeInterval
+    ) async {
+        await withCheckedContinuation { continuation in
+            UIView.animate(
+                withDuration: duration,
+                delay: 0,
+                options: [.curveEaseOut],
+                animations: { views.forEach { $0.alpha = 1 } },
+                completion: { _ in continuation.resume() }
+            )
+        }
+    }
+    
     /// Runs a UIKit keyframe animation as an async operation you can `await`.
     ///
     /// This wraps `UIView.animateKeyframes` in a continuation so execution
