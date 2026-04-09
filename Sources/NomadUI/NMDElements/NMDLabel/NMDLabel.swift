@@ -109,14 +109,7 @@ open class NMDLabel: UILabel, NMDElement {
         self.text = text
         self.textColor = color
         self.textAlignment = align
-        self.font = {
-            let fontFamily: FontFamily = {
-                if alternative { return NomadUI.main.theme.altFont }
-                return NomadUI.main.theme.appFont
-            }()
-            
-            return fontFamily.getStyle(style)
-        }()
+        self.font = style.uiFont(alternative: alternative)
         
         self.numberOfLines = numberOfLines
         

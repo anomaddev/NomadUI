@@ -64,18 +64,18 @@ public enum FontFamily: String, CaseIterable {
         }
     }
     
-    func getStyle(_ style: NMDLabelStyle) -> UIFont {
+    func getStyle(_ style: NMDLabelStyle, alternative: Bool = false) -> UIFont {
         switch style {
-        case .H1: return bold.getFont(size: 32)
-        case .H2: return medium.getFont(size: 24)
-        case .H3: return medium.getFont(size: 18)
-        case .H4: return bold.getFont(size: 18)
-        case .H5: return medium.getFont(size: 16)
-        case .H6: return bold.getFont(size: 14)
-            
-        case .B(let size): return bold.getFont(size: size)
-        case .M(let size): return medium.getFont(size: size)
-        case .P(let size): return regular.getFont(size: size)
+        case .H1: return bold.getFont(size: 32, alternative: alternative)
+        case .H2: return medium.getFont(size: 24, alternative: alternative)
+        case .H3: return medium.getFont(size: 18, alternative: alternative)
+        case .H4: return bold.getFont(size: 18, alternative: alternative)
+        case .H5: return medium.getFont(size: 16, alternative: alternative)
+        case .H6: return bold.getFont(size: 14, alternative: alternative)
+
+        case .B(let size): return bold.getFont(size: size, alternative: alternative)
+        case .M(let size): return medium.getFont(size: size, alternative: alternative)
+        case .P(let size): return regular.getFont(size: size, alternative: alternative)
         }
     }
 }
@@ -111,7 +111,7 @@ public enum Font: String, CaseIterable {
     case MediumOblique
     case BoldOblique
     
-    // TODO: Make throwing function? 
+
     public func getFont(size: CGFloat? = 14,
                         alternative: Bool! = false) -> UIFont
     {
@@ -144,6 +144,16 @@ public enum Font: String, CaseIterable {
         return font
     }
 }
+
+extension NMDLabelStyle {
+
+    /// Resolves the themed font for this style (heading sizes and B/M/P weights) using the active app or alternate font family.
+    public func uiFont(alternative: Bool = false) -> UIFont {
+        let family = alternative ? NomadUI.main.theme.altFont : NomadUI.main.theme.appFont
+        return family.getStyle(self, alternative: alternative)
+    }
+}
+
     //        switch fontFamily {
     //        case .HelveticaNeue:
     //            switch self {
