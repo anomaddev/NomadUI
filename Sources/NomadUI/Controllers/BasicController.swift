@@ -11,7 +11,7 @@ import UIKit
 // Nomad
 import NomadUtilities
 
-open class BasicController: UIViewController {
+open class BasicController: UIViewController, UITextFieldDelegate {
     
     lazy var dismissTap: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.endEditing(_:)))
@@ -48,12 +48,12 @@ open class BasicController: UIViewController {
     }
     
     // MARK: TextFieldDelegates
-    open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    @objc open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         isDismissKeysEnabled = true
         return true
     }
 
-    open func textFieldDidEndEditing(_ textField: UITextField) {
+    @objc open func textFieldDidEndEditing(_ textField: UITextField) {
         isDismissKeysEnabled = false
     }
 
