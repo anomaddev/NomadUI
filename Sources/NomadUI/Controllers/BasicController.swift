@@ -34,16 +34,10 @@ open class BasicController: UIViewController, UITextFieldDelegate {
     }
     
     // MARK: Actions
-    @objc open func endEditing(_ sender: Any!)
+    @objc open func endEditing(_ sender: Any)
     { view.endEditing(true) }
     
-    @objc func appleIDStateDidRevoked(_ notification: Notification) {
-        // Make sure user signed in with Apple
-        do { } // TODO: Log Out }
-        catch { self.handle(error) }
-    }
-    
-    @objc open func goBack(_ sender: Any!) {
+    @objc open func goBack(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
     

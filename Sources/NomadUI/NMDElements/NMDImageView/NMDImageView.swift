@@ -18,17 +18,22 @@ public enum NMDImageViewAttribute: NMDAttribute {
     
     public var value: String {
         switch self {
-        case .image: return "image"
+        case .image, .optionalImage:    return "image"
+        case .highlightedImage:         return "highlightedImage"
+        case .tint:                     return "tintColor"
         }
     }
     
     case image(UIImage)
+    case optionalImage(UIImage?)
+    case highlightedImage(UIImage?)
+    case tint(UIColor)
     
 }
 
 open class NMDImageView: UIImageView, NMDElement {
     
-    var defaultAttributes: [NMDAttributeCategory] = [
+    open var defaultAttributes: [NMDAttributeCategory] = [
         .viewAttributes([
             .contentMode(.scaleAspectFit)
         ])
@@ -39,35 +44,32 @@ open class NMDImageView: UIImageView, NMDElement {
         setup(attributes)
     }
     
-    internal func setup(_ attributes: [NMDAttributeCategory]) {
-        let given = attributes.reduce([]) { $0 + $1.attributes }
-        let defaults = defaultAttributes
-            .reduce([]) { $0 + $1.attributes }
-            .filter { atrib -> Bool in !given.contains(where: { $0.value == atrib.value })}
-        
-        let all = given + defaults
-        all.forEach {
-            if let attribute = $0 as? NMDViewAttribute
-            { setViewAttribute(attribute) }
-            
-            if let attribute = $0 as? NMDImageViewAttribute
-            { setImageViewAttribute(attribute) }
+    open func apply(_ attribute: any NMDAttribute) {
+        if let attribute = attribute as? NMDViewAttribute {
+            setViewAttribute(attribute)
+        }
+        if let attribute = attribute as? NMDImageViewAttribute {
+            setImageViewAttribute(attribute)
         }
     }
     
     public func setImageViewAttribute(_ attribute: NMDImageViewAttribute) {
         switch attribute {
             
-            // ImageView
         case .image(let img):
             image = img
             
+        case .optionalImage(let img):
+            image = img
+            
+        case .highlightedImage(let img):
+            highlightedImage = img
+            
+        case .tint(let color):
+            tintColor = color
         }
     }
     
     required public init?(coder: NSCoder)
     { super.init(coder: coder) }
 }
-
-
-

@@ -8,8 +8,6 @@
 import UIKit
 import Defaults
 
-import NomadUtilities
-
 extension Defaults.Keys {
     
     public static let theme = Key<Adaptive>("theme", default: .followOS)
@@ -53,22 +51,15 @@ public class UITheme: NSObject {
     }
     
     public func active() -> UIPalette {
-        if NomadUtilities.shared.environment == .development {
-            if let override = NomadUI.main.overrideThemeStyle {
-                guard setting == .followOS
-                else { return setting == .dark ? dark : light }
-                
-                return osStyle == .dark ? dark : light
-            }
-        }
+        let effective = NomadUI.main.overrideThemeStyle ?? setting
         
-        if #available(iOS 13.0, *) {
-            guard setting == .followOS
-            else { return setting == .dark ? dark : light }
-            
-            return osStyle == .dark ? dark : light
-        } else {
+        switch effective {
+        case .dark:
+            return dark
+        case .light, .unified:
             return light
+        case .followOS:
+            return osStyle == .dark ? dark : light
         }
     }
 }

@@ -15,9 +15,16 @@ import NomadUtilities
 import Cartography
 import SwipeCellKit
 
-open class NMDCell: UITableViewCell {
+open class NMDCell: UITableViewCell, NMDElement {
+    
     public static func getId() -> String { cellId }
     open class var cellId: String { return "cell" }
+    
+    open var defaultAttributes: [NMDAttributeCategory] = [
+        .viewAttributes([
+            .backgroundColor(.background.color)
+        ])
+    ]
     
     public static func register(on table: UITableView)
     { table.register(self, forCellReuseIdentifier: cellId)}
@@ -27,15 +34,46 @@ open class NMDCell: UITableViewCell {
         else { return table.dequeueReusableCell(withIdentifier: cellId) as? Self }
     }
     
-//    open func layout(with model: TableCellModel) {
-//        selectionStyle = .none
-//        backgroundColor = .background.color
-//    }
+    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setup(defaultAttributes)
+        layout()
+    }
+    
+    public init(_ attributes: [NMDAttributeCategory] = []) {
+        super.init(style: .default, reuseIdentifier: Self.cellId)
+        setup(attributes)
+        layout()
+    }
+    
+    open func apply(_ attribute: any NMDAttribute) {
+        if let attribute = attribute as? NMDViewAttribute {
+            setViewAttribute(attribute)
+            if case .backgroundColor(let color) = attribute {
+                contentView.backgroundColor = color
+            }
+        }
+    }
+    
+    /// Hook for subclasses to compose content after attributes are applied.
+    open func layout() {
+        selectionStyle = .none
+    }
+    
+    required public init?(coder: NSCoder)
+    { super.init(coder: coder) }
 }
 
-open class NMDCellSwipeable: SwipeTableViewCell {
+open class NMDCellSwipeable: SwipeTableViewCell, NMDElement {
+    
     public static func getId() -> String { cellId }
     open class var cellId: String { return "swipecell" }
+    
+    open var defaultAttributes: [NMDAttributeCategory] = [
+        .viewAttributes([
+            .backgroundColor(.background.color)
+        ])
+    ]
     
     public static func register(on table: UITableView)
     { table.register(self, forCellReuseIdentifier: cellId)}
@@ -45,9 +83,32 @@ open class NMDCellSwipeable: SwipeTableViewCell {
         else { return table.dequeueReusableCell(withIdentifier: cellId) as? NMDCellSwipeable }
     }
     
-//    open func layout(with model: TableCellModel) {
-//        selectionStyle = .none
-//        backgroundColor = .background.color
-//    }
+    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setup(defaultAttributes)
+        layout()
+    }
+    
+    public init(_ attributes: [NMDAttributeCategory] = []) {
+        super.init(style: .default, reuseIdentifier: Self.cellId)
+        setup(attributes)
+        layout()
+    }
+    
+    open func apply(_ attribute: any NMDAttribute) {
+        if let attribute = attribute as? NMDViewAttribute {
+            setViewAttribute(attribute)
+            if case .backgroundColor(let color) = attribute {
+                contentView.backgroundColor = color
+            }
+        }
+    }
+    
+    /// Hook for subclasses to compose content after attributes are applied.
+    open func layout() {
+        selectionStyle = .none
+    }
+    
+    required public init?(coder: NSCoder)
+    { super.init(coder: coder) }
 }
-

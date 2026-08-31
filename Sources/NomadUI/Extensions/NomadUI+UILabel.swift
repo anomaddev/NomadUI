@@ -13,7 +13,7 @@ extension UILabel {
     ///
     /// - parameter text: A `String` value to represent the new text to change to
     ///
-    public func changeTo(_ text: String, duration: TimeInterval! = 0.5) {
+    public func changeTo(_ text: String, duration: TimeInterval = 0.5) {
         UIView.animate(withDuration: duration / 2, animations: {
             self.alpha = 0
             self.layoutIfNeeded()
