@@ -22,50 +22,54 @@ public enum NMDButtonAttribute: NMDAttribute {
         case .icon:             return "icon"
         case .iconInsets:       return "iconInsets"
         case .iconTintColor:    return "iconTintColor"
+        case .isEnabled:        return "isEnabled"
+        case .isSelected:       return "isSelected"
+        case .disabledTitle:    return "disabledTitle"
+        case .highlightedTitle: return "highlightedTitle"
+        case .disabledIcon:     return "disabledIcon"
+        case .highlightedIcon:  return "highlightedIcon"
         }
     }
     
+    /// Canonical title for `.normal`. `NMDLabelAttribute.text` is a documented alias.
     case title(String)
     case icon(UIImage?)
     case iconInsets(UIEdgeInsets)
     case iconTintColor(UIColor)
+    case isEnabled(Bool)
+    case isSelected(Bool)
+    case disabledTitle(String)
+    case highlightedTitle(String)
+    case disabledIcon(UIImage?)
+    case highlightedIcon(UIImage?)
     
 }
 
 open class NMDButton: UIButton, NMDElement {
     
-    var defaultAttributes: [NMDAttributeCategory] = [
-        
-    ]
+    open var defaultAttributes: [NMDAttributeCategory] = []
     
     public init(_ attributes: [NMDAttributeCategory] = []) {
         super.init(frame: .zero)
         setup(attributes)
     }
     
-    internal func setup(_ attributes: [NMDAttributeCategory]) {
-        let given = attributes.reduce([]) { $0 + $1.attributes }
-        let defaults = defaultAttributes
-            .reduce([]) { $0 + $1.attributes }
-            .filter { atrib -> Bool in !given.contains(where: { $0.value == atrib.value })}
-        
-        let all = given + defaults
-        all.forEach {
-            if let attribute = $0 as? NMDViewAttribute
-            { setViewAttribute(attribute) }
-            
-            if let attribute = $0 as? NMDButtonAttribute
-            { setButtonAttribute(attribute) }
-            
-            if let attribute = $0 as? NMDLabelAttribute
-            { setTextAttribute(attribute) }
+    open func apply(_ attribute: any NMDAttribute) {
+        if let attribute = attribute as? NMDViewAttribute {
+            setViewAttribute(attribute)
+        }
+        if let attribute = attribute as? NMDButtonAttribute {
+            setButtonAttribute(attribute)
+        }
+        if let attribute = attribute as? NMDLabelAttribute {
+            setTextAttribute(attribute)
         }
     }
     
+    /// Applies label attributes as title styling. `.text` is an alias for `.title`.
     public func setTextAttribute(_ attribute: NMDLabelAttribute) {
         switch attribute {
             
-            // Label
         case .text(let text):
             setTitle(text, for: .normal)
             
@@ -74,6 +78,9 @@ open class NMDButton: UIButton, NMDElement {
             
         case .font(let weight, let size):
             titleLabel?.font = weight.getFont(size: size)
+            
+        case .style(let style, let alternative):
+            titleLabel?.font = style.uiFont(alternative: alternative)
             
         case .autoAdjustFont(let adjust):
             titleLabel?.adjustsFontSizeToFitWidth = adjust
@@ -89,7 +96,6 @@ open class NMDButton: UIButton, NMDElement {
     public func setButtonAttribute(_ attribute: NMDButtonAttribute) {
         switch attribute {
             
-            // ImageView
         case .title(let title):
             setTitle(title, for: .normal)
             
@@ -102,13 +108,27 @@ open class NMDButton: UIButton, NMDElement {
         case .iconTintColor(let color):
             tintColor = color
             
+        case .isEnabled(let enabled):
+            isEnabled = enabled
+            
+        case .isSelected(let selected):
+            isSelected = selected
+            
+        case .disabledTitle(let title):
+            setTitle(title, for: .disabled)
+            
+        case .highlightedTitle(let title):
+            setTitle(title, for: .highlighted)
+            
+        case .disabledIcon(let image):
+            setImage(image, for: .disabled)
+            
+        case .highlightedIcon(let image):
+            setImage(image, for: .highlighted)
+            
         }
     }
     
     required public init?(coder: NSCoder)
     { super.init(coder: coder) }
 }
-
-
-
-

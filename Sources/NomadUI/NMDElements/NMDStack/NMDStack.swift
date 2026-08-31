@@ -18,10 +18,11 @@ public enum NMDStackAttribute: NMDAttribute {
     
     public var value: String {
         switch self {
-        case .direction:    return "direction"
-        case .distribution: return "distribution"
-        case .alignment:    return "alignment"
-        case .spacing:      return "spacing"
+        case .direction:            return "direction"
+        case .distribution:         return "distribution"
+        case .alignment:            return "alignment"
+        case .spacing:              return "spacing"
+        case .arrangedSubviews:     return "arrangedSubviews"
         }
     }
     
@@ -36,6 +37,9 @@ public enum NMDStackAttribute: NMDAttribute {
     
     /// spacing between the stackview's arrangedSubviews, default is `10`
     case spacing(CGFloat)
+    
+    /// Children added as arranged subviews when the stack is set up.
+    case arrangedSubviews([UIView])
     
 }
 
@@ -61,7 +65,7 @@ open class NMDColumn: NMDStack {
 
 open class NMDStack: UIStackView, NMDElement {
     
-    var defaultAttributes: [NMDAttributeCategory] = [
+    open var defaultAttributes: [NMDAttributeCategory] = [
         .stackAttributes([
             .direction(.vertical),
             .distribution(.fill),
@@ -75,26 +79,18 @@ open class NMDStack: UIStackView, NMDElement {
         setup(attributes)
     }
     
-    internal func setup(_ attributes: [NMDAttributeCategory]) {
-        let given = attributes.reduce([]) { $0 + $1.attributes }
-        let defaults = defaultAttributes
-            .reduce([]) { $0 + $1.attributes }
-            .filter { atrib -> Bool in !given.contains(where: { $0.value == atrib.value })}
-        
-        let all = given + defaults
-        all.forEach {
-            if let attribute = $0 as? NMDViewAttribute
-            { setViewAttribute(attribute) }
-            
-            if let attribute = $0 as? NMDStackAttribute
-            { setStackAttribute(attribute) }
+    open func apply(_ attribute: any NMDAttribute) {
+        if let attribute = attribute as? NMDViewAttribute {
+            setViewAttribute(attribute)
+        }
+        if let attribute = attribute as? NMDStackAttribute {
+            setStackAttribute(attribute)
         }
     }
     
     public func setStackAttribute(_ attribute: NMDStackAttribute) {
         switch attribute {
             
-            // Stack
         case .direction(let dir):
             axis = dir
             
@@ -106,6 +102,9 @@ open class NMDStack: UIStackView, NMDElement {
             
         case .spacing(let space):
             spacing = space
+            
+        case .arrangedSubviews(let views):
+            views.forEach { addArrangedSubview($0) }
         }
     }
     

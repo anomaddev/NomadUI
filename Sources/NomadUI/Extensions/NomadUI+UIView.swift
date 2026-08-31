@@ -24,7 +24,7 @@ extension UIView {
     ///   - animations: The animation block to perform.
     ///
     public static func animateAsync(
-        params: NomadAnimateParams! = .init(duration: 0.3, delay: 0, curve: .curveEaseIn),
+        params: NomadAnimateParams = .init(duration: 0.3, delay: 0, curve: .curveEaseIn),
         animations: @escaping () -> Void
     ) async {
         await withCheckedContinuation { continuation in
@@ -185,7 +185,7 @@ extension UIView {
     /// - parameter degrees: A `Float` value to represent the number of degrees to rotate the `UIView`
     /// - parameter animated: A `Bool` value to represent whether the rotation should be animated
     ///
-    private func rotate(degrees: Float! = 0, animated: Bool! = true) {
+    private func rotate(degrees: Float = 0, animated: Bool = true) {
 //        Nomad.main.async {
 //            let duration: CGFloat = animated ? 0.25 : 0
 //            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: {
@@ -212,13 +212,13 @@ extension UIView {
         self.layer.add(animation, forKey: "position")
     }
     
-    public func fadeOut(with duration: Double! = 0.25) {
+    public func fadeOut(with duration: Double = 0.25) {
         UIView.animate(withDuration: duration, animations: {
             self.alpha = 0
         })
     }
     
-    public func fadeIn(with duration: Double! = 0.4) {
+    public func fadeIn(with duration: Double = 0.4) {
         UIView.animate(withDuration: duration, animations: {
             self.alpha = 1
         })
@@ -283,7 +283,7 @@ extension UIView {
      
      - parameter controller: The `UIViewController` that you want to add this child view on to
      */
-    public func fitTo(_ controller: UIViewController, padding: UIEdgeInsets! = .zero) {
+    public func fitTo(_ controller: UIViewController, padding: UIEdgeInsets = .zero) {
         controller.view.add(self)
         constrain(self)
         { theview in
@@ -310,7 +310,7 @@ extension UIView {
      
      - parameter view: The `UIView` that you want to add this child view on to
      */
-    public func fitTo(_ view: UIView, padding: UIEdgeInsets! = .zero) {
+    public func fitTo(_ view: UIView, padding: UIEdgeInsets = .zero) {
         view.add(self)
         constrain(self)
         { theview in
@@ -339,7 +339,7 @@ extension UIView {
     */
     public func centerOn(
         _ view: UIView,
-        axis: Set<NSLayoutConstraint.Axis>! = [.horizontal, .vertical]
+        axis: Set<NSLayoutConstraint.Axis> = [.horizontal, .vertical]
     ) {
         constrain(view, self)
         { parent, child in
@@ -350,7 +350,7 @@ extension UIView {
         view.layoutIfNeeded()
     }
     
-    public func centerInSuperview(axis: Set<NSLayoutConstraint.Axis>! = [.horizontal, .vertical]) {
+    public func centerInSuperview(axis: Set<NSLayoutConstraint.Axis> = [.horizontal, .vertical]) {
         guard let view = superview else { return }
         centerOn(view, axis: axis)
     }
@@ -375,7 +375,7 @@ extension UIView {
     ///
     public func sameWidth(
         as view: UIView,
-        padding: CGFloat! = 0
+        padding: CGFloat = 0
     ) {
         constrain(view, self)
         { parent, child in
@@ -391,7 +391,7 @@ extension UIView {
     ///
     public func sameHeight(
         as view: UIView,
-        padding: CGFloat! = 0
+        padding: CGFloat = 0
     ) {
         constrain(view, self)
         { parent, child in
@@ -402,7 +402,7 @@ extension UIView {
     }
     
     /// This function will align a `UIView` to the right of a given parent `UIView`
-    public func alignRight(spacing: CGFloat! = 0, to view: UIView) {
+    public func alignRight(spacing: CGFloat = 0, to view: UIView) {
         constrain(view, self)
         { parent, child in
             child.right ~== parent.right - spacing
@@ -412,7 +412,7 @@ extension UIView {
     }
     
     /// This function will align a `UIView` to the left of a given parent `UIView`
-    public func alignLeft(spacing: CGFloat! = 0, to view: UIView) {
+    public func alignLeft(spacing: CGFloat = 0, to view: UIView) {
         constrain(view, self)
         { parent, child in
             child.left ~== parent.left + spacing

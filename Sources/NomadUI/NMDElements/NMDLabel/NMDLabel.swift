@@ -61,7 +61,8 @@ public enum NMDLabelAttribute: NMDAttribute {
         case .textColor:            return "textColor"
         case .textAlignment:        return "textAlignment"
         case .font:                 return "font"
-        case .altfont:              return "altfont"
+        case .altfont:              return "font"
+        case .style:                return "font"
         case .numberOfLines:        return "numberOfLines"
         case .autoAdjustFont:       return "autoAdjustFont"
         case .minimumScaleFactor:   return "minimumScaleFactor"
@@ -74,6 +75,7 @@ public enum NMDLabelAttribute: NMDAttribute {
     case textAlignment(NSTextAlignment)
     case font(weight: Font, size: CGFloat)
     case altfont(weight: Font, size: CGFloat)
+    case style(NMDLabelStyle, alternative: Bool)
     case numberOfLines(Int)
     case autoAdjustFont(Bool)
     case minimumScaleFactor(CGFloat)
@@ -83,7 +85,7 @@ public enum NMDLabelAttribute: NMDAttribute {
 
 open class NMDLabel: UILabel, NMDElement {
     
-    var defaultAttributes: [NMDAttributeCategory] = [
+    open var defaultAttributes: [NMDAttributeCategory] = [
         .labelAttributes([
             .textColor(.background.onColor)
         ])
@@ -98,48 +100,52 @@ open class NMDLabel: UILabel, NMDElement {
     
     public init(
         _ text: String? = nil,
-        style: NMDLabelStyle! = .H3,
-        alternative: Bool! = false,
-        color: UIColor! = .background.onColor,
-        align: NSTextAlignment! = .left,
+        style: NMDLabelStyle = .H3,
+        alternative: Bool = false,
+        color: UIColor = .background.onColor,
+        align: NSTextAlignment = .left,
         height: CGFloat? = nil,
-        numberOfLines: Int! = 1
+        numberOfLines: Int = 1
     ) {
         super.init(frame: .zero)
-        self.text = text
-        self.textColor = color
-        self.textAlignment = align
-        self.font = style.uiFont(alternative: alternative)
         
-        self.numberOfLines = numberOfLines
-        
-        if let height = height { self.setHeight(height) }
-        if style.generic == .P { self.numberOfLines = 0 }
-    }
-    
-    internal func setup(_ attributes: [NMDAttributeCategory]) {
-        let given = attributes.reduce([]) { $0 + $1.attributes }
-        let defaults = defaultAttributes
-            .reduce([]) { $0 + $1.attributes }
-            .filter { atrib -> Bool in !given.contains(where: { $0.value == atrib.value })}
-        
-        let all = given + defaults
-        all.forEach {
-            if let attribute = $0 as? NMDViewAttribute
-            { setViewAttribute(attribute) }
-            
-            if let attribute = $0 as? NMDLabelAttribute
-            { setLabelAttribute(attribute) }
+        var labelAttrs: [NMDLabelAttribute] = [
+            .textColor(color),
+            .textAlignment(align),
+            .style(style, alternative: alternative),
+            .numberOfLines(style.generic == .P ? 0 : numberOfLines)
+        ]
+        if let text {
+            labelAttrs.append(.text(text))
         }
         
+        var categories: [NMDAttributeCategory] = [
+            .labelAttributes(labelAttrs)
+        ]
+        if let height {
+            categories.append(.viewAttributes([.setHeight(height)]))
+        }
+        setup(categories)
+    }
+    
+    open func setup(_ attributes: [NMDAttributeCategory]) {
+        applyMerged(attributes)
         sizeToFit()
         layoutIfNeeded()
+    }
+    
+    open func apply(_ attribute: any NMDAttribute) {
+        if let attribute = attribute as? NMDViewAttribute {
+            setViewAttribute(attribute)
+        }
+        if let attribute = attribute as? NMDLabelAttribute {
+            setLabelAttribute(attribute)
+        }
     }
     
     public func setLabelAttribute(_ attribute: NMDLabelAttribute) {
         switch attribute {
             
-            // Label
         case .text(let text):
             self.text = text
             
@@ -154,6 +160,10 @@ open class NMDLabel: UILabel, NMDElement {
             
         case .altfont(let weight, let size):
             font = weight.getFont(size: size, alternative: true)
+            
+        case .style(let style, let alternative):
+            font = style.uiFont(alternative: alternative)
+            if style.generic == .P { numberOfLines = 0 }
             
         case .numberOfLines(let lines):
             numberOfLines = lines
@@ -174,11 +184,11 @@ open class NMDLabel: UILabel, NMDElement {
         super.drawText(in: rect.inset(by: padding))
     }
     
-    public override var intrinsicContentSize : CGSize {
+    public override var intrinsicContentSize: CGSize {
         let superContentSize = super.intrinsicContentSize
         let width = superContentSize.width + padding.left + padding.right
-        let heigth = superContentSize.height + padding.top + padding.bottom
-        return CGSize(width: width, height: heigth)
+        let height = superContentSize.height + padding.top + padding.bottom
+        return CGSize(width: width, height: height)
     }
     
     required public init?(coder: NSCoder)
@@ -188,7 +198,7 @@ open class NMDLabel: UILabel, NMDElement {
 open class Paragraph: NMDLabel {
     public init(
         _ text: String? = nil,
-        size: CGFloat! = 15
+        size: CGFloat = 15
     ) {
         super.init(
             text,
@@ -199,13 +209,13 @@ open class Paragraph: NMDLabel {
     }
     
     required public init?(coder: NSCoder)
-    { fatalError("init(coder:) has not been implemented") }
+    { super.init(coder: coder) }
 }
 
 open class SubHeader: NMDLabel {
     public init(
         _ text: String? = nil,
-        size: CGFloat! = 15
+        size: CGFloat = 15
     ) {
         super.init(
             text,
@@ -216,14 +226,14 @@ open class SubHeader: NMDLabel {
     }
     
     required public init?(coder: NSCoder)
-    { fatalError("init(coder:) has not been implemented") }
+    { super.init(coder: coder) }
 }
 
 open class List: NMDLabel {
     public init(
         description: String? = nil,
-        fontSize: CGFloat! = 15,
-        listItems: [LabelListItem]! = []
+        fontSize: CGFloat = 15,
+        listItems: [LabelListItem] = []
     ) {
         super.init(
             description,
@@ -257,7 +267,7 @@ open class List: NMDLabel {
     }
     
     required public init?(coder: NSCoder)
-    { fatalError("init(coder:) has not been implemented") }
+    { super.init(coder: coder) }
 }
 
 public struct LabelListItem {

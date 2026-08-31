@@ -1,12 +1,13 @@
 //
 //  NMDView.swift
-//  
+//
 //
 //  Created by Justin Ackermann on 5/9/24.
 //
 
 // Core iOS
 import UIKit
+import ObjectiveC
 
 // Nomad
 import NomadUtilities
@@ -44,6 +45,12 @@ public enum NMDViewAttribute: NMDAttribute {
             
         case .isHidden:     return "isHidden"
         case .isUserInteractionEnabled: return "isUserInteractionEnabled"
+            
+        case .subviews:     return "subviews"
+            
+        case .accessibilityLabel:       return "accessibilityLabel"
+        case .accessibilityHint:        return "accessibilityHint"
+        case .isAccessibilityElement:   return "isAccessibilityElement"
         }
     }
     
@@ -74,11 +81,17 @@ public enum NMDViewAttribute: NMDAttribute {
     case isHidden(Bool)
     case isUserInteractionEnabled(Bool)
     
+    case subviews([UIView])
+    
+    case accessibilityLabel(String?)
+    case accessibilityHint(String?)
+    case isAccessibilityElement(Bool)
+    
 }
 
 open class NMDView: UIView, NMDElement {
     
-    var defaultAttributes: [NMDAttributeCategory] = [
+    open var defaultAttributes: [NMDAttributeCategory] = [
         .viewAttributes([
             .backgroundColor(.primary.color)
         ])
@@ -86,42 +99,17 @@ open class NMDView: UIView, NMDElement {
     
     public init(_ color: UIColor) {
         super.init(frame: .zero)
-        backgroundColor = color
+        setup([.viewAttributes([.backgroundColor(color)])])
     }
     
     public init(_ attributes: [NMDAttributeCategory] = []) {
-        let given = attributes.reduce([]) { $0 + $1.attributes }
-        if let frame = given.first(where: { $0.value == "frame" }) as? NMDViewAttribute {
-            switch frame {
-            case .frame(let rect): super.init(frame: rect)
-            default: super.init(frame: .zero)
-            }
-        } else { super.init(frame: .zero) }
-        
+        super.init(frame: attributes.viewFrame ?? .zero)
         setup(attributes)
     }
     
-    public init(view attributes: [NMDViewAttribute] = []) {
-        if let frame = attributes.first(where: { $0.value == "frame" }) as? NMDViewAttribute {
-            switch frame {
-            case .frame(let rect): super.init(frame: rect)
-            default: super.init(frame: .zero)
-            }
-        } else { super.init(frame: .zero) }
-        
-        setup([.viewAttributes(attributes)])
-    }
-    
-    internal func setup(_ attributes: [NMDAttributeCategory]) {
-        let given = attributes.reduce([]) { $0 + $1.attributes }
-        let defaults = defaultAttributes
-            .reduce([]) { $0 + $1.attributes }
-            .filter { atrib -> Bool in !given.contains(where: { $0.value == atrib.value })}
-    
-        let all = given + defaults
-        all.forEach {
-            if let attribute = $0 as? NMDViewAttribute
-            { setViewAttribute(attribute) }
+    open func apply(_ attribute: any NMDAttribute) {
+        if let attribute = attribute as? NMDViewAttribute {
+            setViewAttribute(attribute)
         }
     }
     
@@ -131,25 +119,39 @@ open class NMDView: UIView, NMDElement {
 
 public class Spacer: NMDView {
     public init(w: CGFloat? = nil, h: CGFloat? = nil) {
-        var attributes: [NMDViewAttribute] = []
+        var attributes: [NMDViewAttribute] = [
+            .backgroundColor(.clear)
+        ]
         if let w = w { attributes.append(.setWidth(w)) }
         if let h = h { attributes.append(.setHeight(h)) }
         
         super.init([.viewAttributes(attributes)])
-        backgroundColor = .clear
     }
     
     required public init?(coder: NSCoder)
     { super.init(coder: coder) }
 }
 
+private struct NMDViewShadowFlag {
+    static var key: UInt8 = 0
+}
+
 extension UIView {
+    
+    fileprivate var hasConfiguredShadow: Bool {
+        get { objc_getAssociatedObject(self, &NMDViewShadowFlag.key) as? Bool ?? false }
+        set { objc_setAssociatedObject(self, &NMDViewShadowFlag.key, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
     public func setViewAttribute(_ attribute: NMDViewAttribute) {
         switch attribute {
             
             // Object descriptors
         case .tag(let t):
             tag = t
+            
+        case .frame(let rect):
+            frame = rect
             
             // Sizing
         case .setHeight(let height):
@@ -177,7 +179,7 @@ extension UIView {
         case .contentMode(let mode):
             contentMode = mode
             
-            if let isBtn = self as? UIButton 
+            if let isBtn = self as? UIButton
             { isBtn.imageView?.contentMode = mode }
             
         case .clipsToBounds(let clip):
@@ -185,7 +187,9 @@ extension UIView {
             
         case .cornerRadius(let radius):
             layer.cornerRadius = radius
-            layer.masksToBounds = true
+            if !hasConfiguredShadow {
+                layer.masksToBounds = true
+            }
             
         case .corners(let corners):
             layer.maskedCorners = corners
@@ -196,7 +200,25 @@ extension UIView {
         case .borderColor(let color):
             layer.borderColor = color.cgColor
             
-            // TODO: Shadows
+        case .shadowColor(let color):
+            layer.shadowColor = color.cgColor
+            hasConfiguredShadow = true
+            layer.masksToBounds = false
+            
+        case .shadowOffset(let offset):
+            layer.shadowOffset = offset
+            hasConfiguredShadow = true
+            layer.masksToBounds = false
+            
+        case .shadowRadius(let radius):
+            layer.shadowRadius = radius
+            hasConfiguredShadow = true
+            layer.masksToBounds = false
+            
+        case .shadowOpacity(let opacity):
+            layer.shadowOpacity = opacity
+            hasConfiguredShadow = true
+            layer.masksToBounds = false
             
         case .isHidden(let hidden):
             isHidden = hidden
@@ -204,7 +226,17 @@ extension UIView {
         case .isUserInteractionEnabled(let interaction):
             isUserInteractionEnabled = interaction
             
-        default: break
+        case .subviews(let views):
+            views.forEach { addSubview($0) }
+            
+        case .accessibilityLabel(let label):
+            accessibilityLabel = label
+            
+        case .accessibilityHint(let hint):
+            accessibilityHint = hint
+            
+        case .isAccessibilityElement(let isElement):
+            isAccessibilityElement = isElement
         }
     }
 }

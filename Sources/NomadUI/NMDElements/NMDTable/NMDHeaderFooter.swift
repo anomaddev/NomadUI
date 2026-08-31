@@ -14,10 +14,12 @@ import NomadUtilities
 // Utilities
 import Cartography
 
-open class NMDHeaderFooter: UITableViewHeaderFooterView {
+open class NMDHeaderFooter: UITableViewHeaderFooterView, NMDElement {
     
     public static func getId() -> String { id }
     open class var id: String { return "headerFooter" }
+    
+    open var defaultAttributes: [NMDAttributeCategory] = []
     
     public lazy var row: NMDRow = NMDRow([
         .stackAttributes([
@@ -36,6 +38,27 @@ open class NMDHeaderFooter: UITableViewHeaderFooterView {
     public static func dequeue(on table: UITableView) -> Self?
     { return table.dequeueReusableHeaderFooterView(withIdentifier: id) as? Self }
     
+    public override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setup(defaultAttributes)
+        layout()
+    }
+    
+    public init(_ attributes: [NMDAttributeCategory] = []) {
+        super.init(reuseIdentifier: Self.id)
+        setup(attributes)
+        layout()
+    }
+    
+    open func apply(_ attribute: any NMDAttribute) {
+        if let attribute = attribute as? NMDViewAttribute {
+            setViewAttribute(attribute)
+        }
+    }
+    
+    /// Hook for subclasses to compose content after attributes are applied.
+    open func layout() {}
+    
     override open func prepareForReuse() {
         super.prepareForReuse()
         row.arrangedSubviews.forEach {
@@ -52,24 +75,26 @@ open class NMDHeaderFooter: UITableViewHeaderFooterView {
         layoutIfNeeded()
     }
     
-    open func defaultLayout(title: String? = nil,
-                            subtitle: String? = nil,
-                            insets: UIEdgeInsets? = .surrounding(vertical: 5, horizontal: 15),
-                            style header: NMDLabelStyle! = .H3) {
+    open func defaultLayout(
+        title: String? = nil,
+        subtitle: String? = nil,
+        insets: UIEdgeInsets? = .surrounding(vertical: 5, horizontal: 15),
+        style header: NMDLabelStyle = .H3
+    ) {
         titleView = NMDLabel(title, style: header, height: 20)
         subtitleView.text = subtitle
         
         row.addArrangedSubview(titleView)
         row.addArrangedSubview(subtitleView)
-        row.fitTo(self, padding: insets)
+        row.fitTo(self, padding: insets ?? .zero)
         
         layoutIfNeeded()
     }
     
     open func centeredLayout(
         title: String? = nil,
-        color: UIColor! = .background.onColor,
-        style header: NMDLabelStyle! = .M(size: 12)
+        color: UIColor = .background.onColor,
+        style header: NMDLabelStyle = .M(size: 12)
     ) {
         titleView = NMDLabel(title, style: header, color: color, align: .center, height: 17)
         row.addArrangedSubview(titleView)
@@ -77,4 +102,7 @@ open class NMDHeaderFooter: UITableViewHeaderFooterView {
         
         layoutIfNeeded()
     }
+    
+    required public init?(coder: NSCoder)
+    { super.init(coder: coder) }
 }

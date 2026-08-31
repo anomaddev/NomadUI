@@ -113,20 +113,16 @@ public enum Font: String, CaseIterable {
     
 
     public func getFont(size: CGFloat? = 14,
-                        alternative: Bool! = false) -> UIFont
+                        alternative: Bool = false) -> UIFont
     {
         guard let size = size else { return UIFont(name: "HelveticaNeue", size: 14)! }
         let fontFamily = alternative ? NomadUI.main.theme.altFont : NomadUI.main.theme.appFont
         
         guard fontFamily.enabled.contains(self)
         else {
-            print("INVALID FONT WEIGHT: \(self.rawValue)")
-            print("Choose from one of the following fonts weights:")
-            for font in fontFamily.enabled {
-                print("• \(font.rawValue)")
-            }
-            print()
-            fatalError("\(fontFamily.rawValue) does not support \(self.rawValue)")
+            return UIFont(name: "HelveticaNeue-\(rawValue)", size: size)
+                ?? UIFont(name: "HelveticaNeue", size: size)
+                ?? UIFont.systemFont(ofSize: size)
         }
         
         let thefont = "\(fontFamily.rawValue)-\(self.rawValue)"
@@ -135,7 +131,6 @@ public enum Font: String, CaseIterable {
             let fallback = fontFamily != .HelveticaNeue ? "\(fontFamily.rawValue)-\(Font.Regular.rawValue)" : fontFamily.rawValue
             guard let font = UIFont(name: fallback, size: size)
             else {
-                print("FALLING BACK TO SYSTEM FONT")
                 return UIFont.systemFont(ofSize: size, weight: .medium)
             }
             

@@ -45,8 +45,8 @@ extension UIColor {
     /// - returns: The secondary color of the specified style
     public static func forceSecondary(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light, .unified:    return NomadUI.main.theme.light.error
-        case .dark:     return NomadUI.main.theme.dark.error
+        case .light, .unified:    return NomadUI.main.theme.light.secondary
+        case .dark:     return NomadUI.main.theme.dark.secondary
         case .followOS: fatalError("Cannot force secondary color to follow OS as that is default behavior")
         }
     }
@@ -62,8 +62,8 @@ extension UIColor {
     /// - returns: The tertiary color of the specified style
     public static func forceTertiary(style: Adaptive) -> PrimaryColor {
         switch style {
-        case .light, .unified:    return NomadUI.main.theme.light.error
-        case .dark:     return NomadUI.main.theme.dark.error
+        case .light, .unified:    return NomadUI.main.theme.light.tertiary
+        case .dark:     return NomadUI.main.theme.dark.tertiary
         case .followOS: fatalError("Cannot force tertiary color to follow OS as that is default behavior")
         }
     }
@@ -145,10 +145,10 @@ extension UIColor {
     ///
     /// - parameter style: The style to force the neutral color to
     /// - returns: The neutral color of the specified style
-    public static func forceNeutral(style: Adaptive) -> PrimaryColor {
+    public static func forceNeutral(style: Adaptive) -> NeutralColor {
         switch style {
-        case .light, .unified:    return NomadUI.main.theme.light.error
-        case .dark:     return NomadUI.main.theme.dark.error
+        case .light, .unified:    return NomadUI.main.theme.light.neutral
+        case .dark:     return NomadUI.main.theme.dark.neutral
         case .followOS: fatalError("Cannot force neutral color to follow OS as that is default behavior")
         }
     }

@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  NMDProgress.swift
+//
 //
 //  Created by Justin Ackermann on 8/9/24.
 //
@@ -25,15 +25,20 @@ public enum NMDProgressAttribute: NMDAttribute {
     
     case trackColor(UIColor)
     case progressColor(UIColor)
-    case cornerRadi(CGFloat)
+    case cornerRadius(CGFloat)
     case type(ProgressBarType)
     case progress(Float)
     
+    @available(*, deprecated, renamed: "cornerRadius")
+    public static func cornerRadi(_ radius: CGFloat) -> NMDProgressAttribute {
+        .cornerRadius(radius)
+    }
+    
     public var value: String {
         switch self {
-        case .trackColor:  return "progressTrackColor"
+        case .trackColor:       return "progressTrackColor"
         case .progressColor:    return "progressColor"
-        case .cornerRadi:       return "progressCornerRadius"
+        case .cornerRadius:     return "progressCornerRadius"
         case .type:             return "progressType"
         case .progress:         return "progress"
         }
@@ -43,10 +48,15 @@ public enum NMDProgressAttribute: NMDAttribute {
 open class NMDProgress: UIView, NMDElement {
     
     private var modifiers: ConstraintGroup = ConstraintGroup()
+    private var endModifiers: ConstraintGroup = ConstraintGroup()
+    private var progressType: ProgressBarType = .leftToRight
+    private var progressValue: CGFloat = 0
+    
     lazy var background: NMDView = NMDView([])
     lazy var progress: NMDView = NMDView([])
+    lazy var progressEnd: NMDView = NMDView([])
     
-    var defaultAttributes: [NMDAttributeCategory] = [
+    open var defaultAttributes: [NMDAttributeCategory] = [
         .viewAttributes([
             .backgroundColor(.primary.color)
         ]),
@@ -56,88 +66,118 @@ open class NMDProgress: UIView, NMDElement {
     ]
     
     public init(_ attributes: [NMDAttributeCategory] = []) {
-        let given = attributes.reduce([]) { $0 + $1.attributes }
-        if let frame = given.first(where: { $0.value == "frame" }) as? NMDViewAttribute {
-            switch frame {
-            case .frame(let rect): super.init(frame: rect)
-            default: super.init(frame: .zero)
-            }
-        } else { super.init(frame: .zero) }
-        
+        super.init(frame: attributes.viewFrame ?? .zero)
         setup(attributes)
     }
     
-    func setup(_ attributes: [NMDAttributeCategory]) {
+    open func setup(_ attributes: [NMDAttributeCategory]) {
         background.fitTo(self)
-        background.add(progress)
+        background.add(progress, progressEnd)
         progress.centerOn(background, axis: [.vertical])
+        progressEnd.centerOn(background, axis: [.vertical])
+        progressEnd.isHidden = true
         
-        let given = attributes.reduce([]) { $0 + $1.attributes }
-        let defaults = defaultAttributes
-            .reduce([]) { $0 + $1.attributes }
-            .filter { atrib -> Bool in !given.contains(where: { $0.value == atrib.value })}
-        
-        let all = given + defaults
-        all.forEach {
-            if let attribute = $0 as? NMDViewAttribute
-            { setViewAttribute(attribute) }
-            
-            if let attribute = $0 as? NMDProgressAttribute
-            { setProgressAttribute(attribute) }
-        }
+        applyMerged(attributes)
         
         sizeToFit()
         layoutIfNeeded()
         
         background.bringSubviewToFront(progress)
+        background.bringSubviewToFront(progressEnd)
+    }
+    
+    open func apply(_ attribute: any NMDAttribute) {
+        if let attribute = attribute as? NMDViewAttribute {
+            setViewAttribute(attribute)
+        }
+        if let attribute = attribute as? NMDProgressAttribute {
+            setProgressAttribute(attribute)
+        }
     }
     
     public func setProgressAttribute(_ attribute: NMDProgressAttribute) {
         switch attribute {
             
-            // Progress
         case .trackColor(let color):
             background.backgroundColor = color
             
         case .progressColor(let color):
             progress.backgroundColor = color
+            progressEnd.backgroundColor = color
             
-        case .cornerRadi(let radius):
+        case .cornerRadius(let radius):
             background.layer.cornerRadius = radius
             background.layer.masksToBounds = true
             
             progress.layer.cornerRadius = radius
             progress.layer.masksToBounds = true
+            progressEnd.layer.cornerRadius = radius
+            progressEnd.layer.masksToBounds = true
             
-        case .type(let progressType):
-            switch progressType {
-            case .leftToRight:
-                constrain(progress)
-                { progress in
-                    let superview = progress.superview!
-                    progress.left ~== superview.left
-                }
-                
-                constrain(progress, replace: modifiers)
-                { progress in progress.width ~== 0 }
-                
-            default: break
-            }
+        case .type(let type):
+            progressType = type
+            applyTypeConstraints()
             
         case .progress(let prog):
             setProgress(prog.cg)
         }
     }
     
-    public func setProgress(_ prog: CGFloat, duration: Double! = 0.3) {
+    public func setProgress(_ prog: CGFloat, duration: Double = 0.3) {
+        progressValue = min(max(prog, 0), 1)
         UIView.animate(withDuration: duration, animations: {
-            constrain(self.progress, replace: self.modifiers)
-            { progress in progress.width ~== progress.superview!.width * prog }
-            
+            self.applyProgressConstraints()
             self.layoutIfNeeded()
         })
     }
     
+    private func applyTypeConstraints() {
+        progressEnd.isHidden = progressType != .centerIn
+        
+        constrain(progress) { bar in
+            let superview = bar.superview!
+            switch self.progressType {
+            case .leftToRight:
+                bar.left ~== superview.left
+            case .rightToLeft:
+                bar.right ~== superview.right
+            case .centerOut:
+                bar.centerX ~== superview.centerX
+            case .centerIn:
+                bar.left ~== superview.left
+            }
+        }
+        
+        if progressType == .centerIn {
+            constrain(progressEnd) { bar in
+                let superview = bar.superview!
+                bar.right ~== superview.right
+            }
+        }
+        
+        applyProgressConstraints()
+    }
+    
+    private func applyProgressConstraints() {
+        let value = progressValue
+        constrain(progress, replace: modifiers) { bar in
+            let superview = bar.superview!
+            switch self.progressType {
+            case .leftToRight, .rightToLeft, .centerOut:
+                bar.width ~== superview.width * value
+            case .centerIn:
+                bar.width ~== superview.width * (value / 2)
+            }
+        }
+        
+        if progressType == .centerIn {
+            constrain(progressEnd, replace: endModifiers) { bar in
+                let superview = bar.superview!
+                bar.width ~== superview.width * (value / 2)
+            }
+        }
+    }
+    
     required public init?(coder: NSCoder)
-    { fatalError("init(coder:) has not been implemented") }
+    { super.init(coder: coder) }
 }

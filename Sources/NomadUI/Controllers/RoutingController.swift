@@ -10,8 +10,6 @@ import UIKit
 
 // Utilities
 import FAPanels
-//import Cartography
-//import NVActivityIndicatorView
 
 open class RoutingController: FAPanelController {
     
@@ -44,7 +42,13 @@ open class RoutingController: FAPanelController {
         set { configs.rightPanelWidth = newValue }
     }
     
-    public var palatte: UIPalette = NomadUI.main.theme.active()
+    public var palette: UIPalette = NomadUI.main.theme.active()
+    
+    @available(*, deprecated, renamed: "palette")
+    public var palatte: UIPalette {
+        get { palette }
+        set { palette = newValue }
+    }
     
     public var navigation: NavigationController?
     
@@ -71,7 +75,7 @@ open class RoutingController: FAPanelController {
     
     override open func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = palatte.background.color
+        view.backgroundColor = palette.background.color
         
         
     }

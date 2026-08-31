@@ -22,7 +22,6 @@ public class NomadUI {
         let thm = UITheme()
         let active = Defaults[.theme]
         
-        print("Active Theme: \(active.label)")
         thm.setting = active
         return thm
     }()
@@ -45,10 +44,9 @@ extension NomadUI {
         
         var error: Unmanaged<CFError>?
         CTFontManagerRegisterGraphicsFont(font, &error)
-        print("LOADED FONT: \(fontName)")
     }
     
-    public static func register(fonts: [FontFamily]! = FontFamily.allCases) {
+    public static func register(fonts: [FontFamily] = FontFamily.allCases) {
         let fonts = fonts
             .filter {
                 $0 != .HelveticaNeue
