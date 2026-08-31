@@ -96,6 +96,10 @@ button.backgroundColor = .primary.color
 - `NavigationController` — hidden bar, `fadeTo(_:)`
 - `RoutingController` — `FAPanels` side-menu host
 
+## Migrating from earlier NomadUI
+
+See [MIGRATION.md](MIGRATION.md) for breaking API replacements, exhaustive-switch updates, and behavior changes (theme colors, shadows, cells).
+
 ## Requirements
 
 iOS 14+, Swift 5.9. Layout helpers use [Cartography](https://github.com/anomaddev/Cartography).
