@@ -110,6 +110,24 @@ final class StackAndChildrenTests: XCTestCase {
         XCTAssertEqual(stack.arrangedSubviews.count, 1)
         XCTAssertTrue(stack.arrangedSubviews.contains(child))
     }
+    
+    func testStackAttributesEqualByValueKey() {
+        XCTAssertEqual(NMDStackAttribute.spacing(8), NMDStackAttribute.spacing(24))
+        XCTAssertEqual(
+            NMDStackAttribute.arrangedSubviews([UIView()]),
+            NMDStackAttribute.arrangedSubviews([])
+        )
+        XCTAssertNotEqual(NMDStackAttribute.spacing(8), NMDStackAttribute.alignment(.center))
+    }
+    
+    func testViewAttributesEqualByValueKey() {
+        XCTAssertEqual(NMDViewAttribute.alpha(0.2), NMDViewAttribute.alpha(1))
+        XCTAssertEqual(
+            NMDViewAttribute.subviews([UIView()]),
+            NMDViewAttribute.subviews([])
+        )
+        XCTAssertNotEqual(NMDViewAttribute.alpha(1), NMDViewAttribute.tag(1))
+    }
 }
 
 final class ControlAttributeTests: XCTestCase {

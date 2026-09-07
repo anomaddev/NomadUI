@@ -87,6 +87,13 @@ public enum NMDViewAttribute: NMDAttribute {
     case accessibilityHint(String?)
     case isAccessibilityElement(Bool)
     
+    /// Compare by attribute key, matching `NMDAttribute` default equality.
+    /// Required because `subviews` carries `[UIView]`, which blocks automatic
+    /// `Equatable` synthesis.
+    public static func == (lhs: NMDViewAttribute, rhs: NMDViewAttribute) -> Bool {
+        lhs.value == rhs.value
+    }
+    
 }
 
 open class NMDView: UIView, NMDElement {

@@ -41,6 +41,13 @@ public enum NMDStackAttribute: NMDAttribute {
     /// Children added as arranged subviews when the stack is set up.
     case arrangedSubviews([UIView])
     
+    /// Compare by attribute key, matching `NMDAttribute` default equality.
+    /// Required because `arrangedSubviews` carries `[UIView]`, which blocks
+    /// automatic `Equatable` synthesis.
+    public static func == (lhs: NMDStackAttribute, rhs: NMDStackAttribute) -> Bool {
+        lhs.value == rhs.value
+    }
+    
 }
 
 open class NMDRow: NMDStack {
