@@ -44,6 +44,12 @@ extension NMDElement {
     }
 }
 
+/// Attribute identity is the `value` key used when merging defaults.
+///
+/// Conformers with associated values that are not `Equatable` (for example
+/// `[UIView]`) must implement `==` themselves. Swift will not synthesize
+/// `Equatable` for those enums, so they would otherwise fail to satisfy
+/// `NMDAttribute`.
 public protocol NMDAttribute: Equatable {
     var value: String { get }
 }
