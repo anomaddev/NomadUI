@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 5/11/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 @available(iOS 15.0, *)
@@ -79,3 +80,4 @@ extension AttributeContainer {
         return container
     }()
 }
+#endif

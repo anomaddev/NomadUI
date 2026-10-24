@@ -6,6 +6,7 @@
 //
 
 // Core iOS
+#if canImport(UIKit)
 import UIKit
 
 // Utilities
@@ -422,3 +423,4 @@ extension UIView {
     }
 
 }
+#endif

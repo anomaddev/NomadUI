@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 3/26/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 public struct AnchoredConstraints {
@@ -112,3 +113,4 @@ extension Array where Element == NMDAttributeCategory {
         return rect
     }
 }
+#endif

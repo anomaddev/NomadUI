@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 7/4/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 public struct NomadAnimateParams {
@@ -54,3 +55,4 @@ extension UIView {
         ) { _ in completion?(animate) }
     }
 }
+#endif

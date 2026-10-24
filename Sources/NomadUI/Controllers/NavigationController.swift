@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 5/9/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 open class NavigationController: UINavigationController {
@@ -23,3 +24,4 @@ open class NavigationController: UINavigationController {
         pushViewController(viewController, animated: false)
     }
 }
+#endif

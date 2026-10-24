@@ -1,5 +1,6 @@
 import XCTest
 @testable import NomadUI
+#if canImport(UIKit)
 import UIKit
 
 final class AttributeMergeTests: XCTestCase {
@@ -297,3 +298,4 @@ final class ViewChromeTests: XCTestCase {
         XCTAssertNotNil(bar)
     }
 }
+#endif

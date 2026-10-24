@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 8/31/26.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 public enum NMDTextViewAttribute: NMDAttribute {
@@ -120,3 +121,4 @@ open class NMDTextView: UITextView, NMDElement {
     required public init?(coder: NSCoder)
     { super.init(coder: coder) }
 }
+#endif

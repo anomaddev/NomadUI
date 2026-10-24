@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 3/26/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 import Defaults
 
@@ -63,3 +64,4 @@ public class UITheme: NSObject {
         }
     }
 }
+#endif
