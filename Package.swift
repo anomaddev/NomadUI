@@ -17,10 +17,10 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/anomaddev/NomadUtilities.git", from: "0.1.0"),
         .package(url: "https://github.com/yeahdongcn/UIColor-Hex-Swift.git", from: "5.1.0"),
-        .package(url: "https://github.com/anomaddev/FAPanels.git", branch: "master"),
+        .package(url: "https://github.com/anomaddev/FAPanels.git", from: "1.0.0"),
         .package(url: "https://github.com/anomaddev/Cartography.git", .upToNextMajor(from: "4.0.0")),
         .package(url: "https://github.com/sindresorhus/Defaults.git", from: "9.0.0"),
-        .package(url: "https://github.com/SwipeCellKit/SwipeCellKit.git", branch: "develop")
+        .package(url: "https://github.com/SwipeCellKit/SwipeCellKit.git", from: "2.7.1")
     ],
     targets: [
         .target(
