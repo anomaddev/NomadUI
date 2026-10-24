@@ -6,6 +6,7 @@
 //
 
 // Core iOS
+#if canImport(UIKit)
 import UIKit
 
 // Nomad
@@ -57,3 +58,4 @@ open class BasicController: UIViewController, UITextFieldDelegate {
         print()
     }
 }
+#endif

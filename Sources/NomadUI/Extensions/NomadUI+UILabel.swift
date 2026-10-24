@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 5/27/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 extension UILabel {
@@ -26,3 +27,4 @@ extension UILabel {
         }
     }
 }
+#endif

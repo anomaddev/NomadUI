@@ -6,6 +6,7 @@
 //
 
 // Core iOS
+#if canImport(UIKit)
 import UIKit
 
 // Nomad
@@ -279,3 +280,4 @@ public struct LabelListItem {
         self.item = item
     }
 }
+#endif

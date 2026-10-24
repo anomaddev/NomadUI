@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 3/26/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 import UIColorHexSwift
 import Defaults
@@ -228,3 +229,4 @@ public enum Adaptive: String, Defaults.Serializable, CaseIterable {
         }
     }
 }
+#endif

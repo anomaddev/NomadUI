@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 5/9/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 public enum FontFamily: String, CaseIterable {
@@ -202,3 +203,4 @@ extension NMDLabelStyle {
 //        print("LOADED FONT: \(fontName)")
 //    }
 //}
+#endif

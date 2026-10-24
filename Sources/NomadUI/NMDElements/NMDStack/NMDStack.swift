@@ -6,6 +6,7 @@
 //
 
 // Core iOS
+#if canImport(UIKit)
 import UIKit
 
 // Nomad
@@ -124,3 +125,4 @@ extension UIStackView {
         views.forEach { addArrangedSubview($0) }
     }
 }
+#endif

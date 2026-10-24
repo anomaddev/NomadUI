@@ -5,6 +5,7 @@
 //  Created by Justin Ackermann on 3/26/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 import UIColorHexSwift
 
@@ -153,3 +154,4 @@ extension UIColor {
         }
     }
 }
+#endif

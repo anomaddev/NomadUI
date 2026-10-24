@@ -6,6 +6,7 @@
 //
 
 // Core iOS
+#if canImport(UIKit)
 import UIKit
 
 // Nomad
@@ -132,3 +133,4 @@ open class NMDButton: UIButton, NMDElement {
     required public init?(coder: NSCoder)
     { super.init(coder: coder) }
 }
+#endif
